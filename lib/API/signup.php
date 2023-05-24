@@ -34,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         } else {
             // Pengguna tidak ditemukan, mengirimkan status gagal ke aplikasi Flutter
             $response['status'] = 'error';
-            $response['message'] = 'Invalid username or password';
+            $response['message'] = 'Invalid email or password';
         }
     } else {
         // Query gagal dieksekusi, mengirimkan status gagal ke aplikasi Flutter

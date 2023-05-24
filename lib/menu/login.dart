@@ -1,59 +1,56 @@
 // ignore_for_file: use_build_context_synchronously
-
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-class LoginPage extends StatelessWidget {
-  const LoginPage({Key? key}) : super(key: key);
+class LoginPage extends StatefulWidget {
+  const LoginPage({required Key key}) : super(key: key);
 
-  Future<void> _login(
-      BuildContext context, String email, String password) async {
-    
-    final url = 'http://10.0.2.2/owari/signup.php';
+  @override
+  // ignore: library_private_types_in_public_api
+  _LoginPage createState() => _LoginPage();
+}
+
+class _LoginPage extends State<LoginPage> {
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+
+  Future<void> login() async {
+    String email = emailController.text;
+    String password = passwordController.text;
+
+    const url = 'http://10.0.2.2/owari/signup.php';
 
     try {
-      // Membuat permintaan POST ke API login dengan data email dan password
       final response = await http.post(Uri.parse(url), body: {
         'email': email,
         'password': password,
       });
 
-      // Memeriksa status kode respons
       if (response.statusCode == 200) {
-        // Parsing response JSON
         final data = jsonDecode(response.body);
-
-        // Memeriksa status dari response
         if (data['status'] == 'success') {
-          // Login berhasil, arahkan ke halaman home
           Navigator.pushNamed(context, '/home');
         } else {
-          // Login gagal, tampilkan pesan error
           final errorMessage = data['message'];
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text(errorMessage)),
           );
         }
       } else {
-        // Gagal terhubung ke server, tampilkan pesan error
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Failed to connect to the server')),
+          const SnackBar(content: Text('Failed to connect to the server')),
         );
       }
     } catch (error) {
-      // Terjadi kesalahan, tampilkan pesan error
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('An error occurred')),
+        const SnackBar(content: Text('An error occurred')),
       );
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    String email = '';
-    String password = '';
-
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -75,34 +72,30 @@ class LoginPage extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: TextFormField(
+                controller: emailController,
                 decoration: const InputDecoration(
                   labelText: 'Email',
                   prefixIcon: Icon(Icons.email),
                 ),
-                onChanged: (value) {
-                  email = value;
-                },
               ),
             ),
             const SizedBox(height: 30),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: TextFormField(
+                controller: passwordController,
                 decoration: const InputDecoration(
                   labelText: 'Password',
                   prefixIcon: Icon(Icons.lock),
                   suffixIcon: Icon(Icons.visibility),
                 ),
                 obscureText: true,
-                onChanged: (value) {
-                  password = value;
-                },
               ),
             ),
             const SizedBox(height: 60),
             ElevatedButton(
               onPressed: () {
-                _login(context, email, password);
+                login();
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.black,
