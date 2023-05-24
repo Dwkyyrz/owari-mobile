@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       home: const SplashScreen(),
       routes: {
-        '/login': (context) => const LoginPage(),
+        '/login': (context) => LoginPage(key: UniqueKey()),
         '/register': (context) => RegisterPage(key: UniqueKey()),
         '/home': (context) => const HomePage(),
       },
