@@ -17,7 +17,10 @@ class _LoginPage extends State<LoginPage> {
     String email = emailController.text;
     String password = passwordController.text;
 
-    const url = 'http://10.0.2.2/owari/signup.php';
+//    const url = 'http://10.0.2.2/owari/signup.php';
+
+    //leo
+    const url = 'http://192.168.1.2/owari/signup.php';
 
     try {
       final response = await http.post(Uri.parse(url), body: {
