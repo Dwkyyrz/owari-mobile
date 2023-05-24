@@ -9,7 +9,7 @@ class LoginPage extends StatelessWidget {
 
   Future<void> _login(
       BuildContext context, String email, String password) async {
-    // Endpoint URL API login (sesuaikan dengan URL Anda)
+    
     final url = 'http://10.0.2.2/owari/signup.php';
 
     try {

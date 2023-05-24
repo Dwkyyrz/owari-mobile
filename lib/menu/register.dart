@@ -23,7 +23,7 @@ class _RegisterPageState extends State<RegisterPage> {
     String username = usernameController.text;
     String email = emailController.text;
     String password = passwordController.text;
-    String no = phoneController.text;
+    String telp = phoneController.text;
     String alamat = addressController.text;
 
     var url = Uri.parse(
@@ -32,7 +32,7 @@ class _RegisterPageState extends State<RegisterPage> {
       'username': username,
       'email': email,
       'password': password,
-      'no': no,
+      'telp': telp,
       'alamat': alamat,
     });
 
