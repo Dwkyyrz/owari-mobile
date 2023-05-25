@@ -27,7 +27,9 @@ class _RegisterPageState extends State<RegisterPage> {
     String alamat = addressController.text;
 
     var url = Uri.parse(
-        'http://10.0.2.2/owari/regis.php'); // Sesuaikan URL dengan endpoint PHP Anda
+        //'http://10.0.2.2/owari/regis.php'); // Sesuaikan URL dengan endpoint PHP Anda
+        //leo
+        'http://192.168.1.2/owari/regis.php');
     var response = await http.post(url, body: {
       'username': username,
       'email': email,
@@ -104,8 +106,7 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: SafeArea(
-      child: SingleChildScrollView(
+      body: SafeArea(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
@@ -216,6 +217,6 @@ class _RegisterPageState extends State<RegisterPage> {
           ],
         ),
       ),
-    ));
+    );
   }
 }
