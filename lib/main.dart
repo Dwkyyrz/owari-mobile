@@ -1,8 +1,11 @@
+// ignore_for_file: unused_import
+
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:owari/menu/login.dart';
 import 'package:owari/menu/register.dart';
 import 'package:owari/menu/home.dart';
+import 'screen/Category.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,10 +18,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: const SplashScreen(),
+      // home: Category(),
       routes: {
         '/login': (context) => LoginPage(key: UniqueKey()),
         '/register': (context) => RegisterPage(key: UniqueKey()),
-        '/home': (context) => const HomePage(),
+        '/home': (context) => HomePage(),
       },
     );
   }

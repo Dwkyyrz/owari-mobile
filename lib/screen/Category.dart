@@ -3,20 +3,19 @@
 import 'package:flutter/material.dart';
 
 class Category extends StatelessWidget {
-
-  List catList = [
-    "Game Series",
-    "Music Series",
-    "Anime Series"
-  ];
+  List catList = ["Game Series", "Music Series", "Anime Series"];
 
   //sek image list ambek catlist belakangan ae
 
+<<<<<<< HEAD
   List imgList = [
     "banner1",
     "",
     ""
   ];
+=======
+  List imgList = ["ABCD", "EFGH", "IJKL"];
+>>>>>>> 2d82ec620e5753ec7381ee0ff47be9c3ff3f19ba
 
   @override
   Widget build(BuildContext context) {
@@ -28,26 +27,27 @@ class Category extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Padding(padding: EdgeInsets.only(right: 25),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(
-                      width: MediaQuery.of(context).size.width / 1.5,
-                      decoration: BoxDecoration(
-                        color: Color(0xFFF7F8FA),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: TextFormField(
-                        decoration: InputDecoration(
-                          label: Text("Find Your Prduct"),
-                          border: InputBorder.none,
-                          prefixIcon: Icon(Icons.search,
-                          size: 30,
-                          color: Colors.grey
+                Padding(
+                  padding: EdgeInsets.only(right: 25),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                        width: MediaQuery.of(context).size.width / 1.5,
+                        decoration: BoxDecoration(
+                          color: Color(0xFFF7F8FA),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: TextFormField(
+                          decoration: InputDecoration(
+                            label: Text("Find Your Prduct"),
+                            border: InputBorder.none,
+                            prefixIcon: Icon(Icons.search,
+                                size: 30, color: Colors.grey),
                           ),
                         ),
                       ),
+<<<<<<< HEAD
                     ),
                     Container(
                       padding: EdgeInsets.all(15),
@@ -63,6 +63,14 @@ class Category extends StatelessWidget {
                     )
                   ],
                 ),
+=======
+                      Container(
+                        padding: EdgeInsets.all(15),
+                        decoration: BoxDecoration(color: Color(1010)),
+                      )
+                    ],
+                  ),
+>>>>>>> 2d82ec620e5753ec7381ee0ff47be9c3ff3f19ba
                 ),
                 Container(
                   margin: EdgeInsets.only(right: 25, top: 20),
