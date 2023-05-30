@@ -30,3 +30,7 @@ flutter:
   assets:
     - assets/
     # - assets/1.jpg
+  # fonts:
+  #   - family: MonumentExtended
+  #     fonts:
+  #       - asset: assets/font/MonumenExtended-Reguler.otf

@@ -6,6 +6,8 @@ import 'package:owari/menu/login.dart';
 import 'package:owari/menu/register.dart';
 import 'package:owari/menu/home.dart';
 import 'screen/Category.dart';
+import 'package:owari/menu/new_product.dart';
+import 'package:owari/menu/new_design.dart';
 
 void main() {
   runApp(const MyApp());
@@ -23,6 +25,8 @@ class MyApp extends StatelessWidget {
         '/login': (context) => LoginPage(key: UniqueKey()),
         '/register': (context) => RegisterPage(key: UniqueKey()),
         '/home': (context) => HomePage(),
+        '/newProduct': (context) => newProduct(),
+        '/newDesign': (context) => newDesign(),
       },
     );
   }

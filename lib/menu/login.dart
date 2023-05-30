@@ -20,7 +20,7 @@ class _LoginPage extends State<LoginPage> {
 //    const url = 'http://10.0.2.2/owari/signup.php';
 
     //leo
-    const url = 'http://192.168.1.2/owari/signup.php';
+    const url = 'http://10.0.2.2/owari/login.php';
 
     try {
       final response = await http.post(Uri.parse(url), body: {
