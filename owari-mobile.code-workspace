@@ -1,0 +1,11 @@
+{
+	"folders": [
+		{
+			"name": "owari-mobile",
+			"path": "."
+		}
+	],
+	"settings": {
+		"java.configuration.updateBuildConfiguration": "interactive"
+	}
+}
