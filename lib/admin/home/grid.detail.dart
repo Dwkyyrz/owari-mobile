@@ -13,24 +13,21 @@ class _GridDetailsState extends State<GridDetails> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(backgroundColor: Colors.black,),
       body: Container(
         alignment: Alignment.center,
-        margin: EdgeInsets.all(30),
+        padding: EdgeInsets.all(30),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Hero(
-              tag: "assets${widget.product.id}",
-              child: FadeInImage.assetNetwork(
-                placeholder: "assets/load.png",
-                image: widget.product.url),
-            ),
+            // Hero(
+            //   tag: "assets${widget.product.idBarang}",
+            //   child: FadeInImage.assetNetwork(
+            //     placeholder: "assets/load.png",
+            //     image: widget.product.urlGambar),
+            // ),
             SizedBox(height: 30),
-            OutlinedButton(
-              child: Icon(Icons.close),
-              onPressed: () => Navigator.of(context).pop(),
-            )
           ],
         ),
       ),

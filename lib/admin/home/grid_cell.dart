@@ -22,23 +22,23 @@ class ProductCell extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,
             children: [
-              Flexible(
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(10),
-                  child: Hero(
-                    tag: "assets${product.id}",
-                    child: FadeInImage.assetNetwork(
-                      placeholder: "assets/load.png",
-                      image: product.thumbnailUrl.toString(),
-                      width: 100,
-                      height: 100,),
-                  ),
-                ),
-              ),
+              // Flexible(
+              //   child: ClipRRect(
+              //     borderRadius: BorderRadius.circular(10),
+              //     child: Hero(
+              //       tag: "assets${product.pId}",
+              //       // child: FadeInImage.assetNetwork(
+              //       //   placeholder: "assets/load.png",
+              //       //   // image: product.urlGambar.toString(),
+              //       //   width: 100,
+              //       //   height: 100,),
+              //     ),
+              //   ),
+              // ),
               Padding(
                 padding: EdgeInsets.all(10),
                 child: Text(
-                  product.title.toString(),
+                  product.nama.toString(),
                   maxLines: 1,
                   softWrap: true,
                   textAlign: TextAlign.center,
