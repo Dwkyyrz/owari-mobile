@@ -43,7 +43,7 @@ class _HomeState extends State<Home> {
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
       floatingActionButton: FloatingActionButton(onPressed: () {
-        Navigator.push(
+        Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (context) => TambahProduk()));
       },
       child: Icon(Icons.add),

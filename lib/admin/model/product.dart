@@ -1,31 +1,3 @@
-// class Product {
-//   int? albumId;
-//   int? id;
-//   String? title;
-//   var url;
-//   String? thumbnailUrl;
-
-//   Product({this.albumId, this.id, this.title, this.url, this.thumbnailUrl});
-
-//   Product.fromJson(Map<String, dynamic> json) {
-//     albumId = json['albumId'];
-//     id = json['id'];
-//     title = json['title'];
-//     url = json['url'];
-//     thumbnailUrl = json['thumbnailUrl'];
-//   }
-
-//   Map<String, dynamic> toJson() {
-//     final Map<String, dynamic> data = new Map<String, dynamic>();
-//     data['albumId'] = this.albumId;
-//     data['id'] = this.id;
-//     data['title'] = this.title;
-//     data['url'] = this.url;
-//     data['thumbnailUrl'] = this.thumbnailUrl;
-//     return data;
-//   }
-// }
-
 class Product {
   int? pId;
   int? catId;
@@ -36,7 +8,7 @@ class Product {
   String? ukuran;
   String? foto;
 
-  Product(
+  Product(Product product, 
       {this.pId,
       this.catId,
       this.nama,
@@ -44,7 +16,10 @@ class Product {
       this.stock,
       this.harga,
       this.ukuran,
-      this.foto});
+      this.foto}) {
+          // TODO: implement Product
+          throw UnimplementedError();
+        }
 
   Product.fromJson(Map<String, dynamic> json) {
     pId = json['p_id'];
@@ -69,5 +44,15 @@ class Product {
     data['foto'] = this.foto;
     return data;
   }
-}
 
+  Map<String, dynamic> toJsonAdd() {
+    return {
+       "Nama" : nama,
+       "Deskripsi" : deskripsi,
+       "Stock" : stock,
+       "Harga" : harga,
+       "Ukuran" : ukuran,
+       "Foto" : foto
+    };
+  }
+}

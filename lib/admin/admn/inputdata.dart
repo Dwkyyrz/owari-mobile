@@ -1,40 +1,40 @@
 import 'package:flutter/material.dart';
 
-class InputData extends StatefulWidget {
-
-  final String nama;
-  final String deskripsi;
-  final String stock;
-  final String harga;
-  final String ukuran;
-  final String foto;
-
+class InputData extends StatelessWidget {
   InputData(
-      {required this.nama,
-      required this.deskripsi,
-      required this.stock,
-      required this.harga,
-      required this.ukuran,
-      required this.foto});
+      {super.key,
+      required this.hintedtext,
+      required this.labledtext,
+      required this.Inputcontroller});
 
-  @override
-  _InputDataState createState() => _InputDataState();
-}
+  final String hintedtext;
+  final String labledtext;
+  final TextEditingController Inputcontroller;
 
-class _InputDataState extends State<InputData> {
-  
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-       body: Column(children: [
-        // Text('Nama : ${nama}'),
-        // Text('Deskripsi : ${deskripsi}'),
-        // Text('Stock : ${stock}'),
-        // Text('Harga : ${harga}'),
-        // Text('Ukuran : ${ukuran}'),
-        // Text('Foto : ${foto}')
-    ],
-    ),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+      child: TextFormField(
+        controller: Inputcontroller,
+        validator: (value) {
+          if (value!.isEmpty) {
+            return "$labledtext is required";
+          }
+        },
+        decoration: InputDecoration(
+          hintText: hintedtext,
+          labelText: labledtext,
+          enabledBorder: OutlineInputBorder(
+              borderSide: BorderSide(width: 3, color: Colors.blueAccent)),
+          focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(width: 3, color: Colors.blueAccent)),
+          errorBorder: OutlineInputBorder(
+              borderSide: BorderSide(width: 3, color: Colors.red)),
+          focusedErrorBorder: OutlineInputBorder(
+              borderSide: BorderSide(width: 3, color: Colors.red)),
+        ),
+      ),
     );
   }
 }
