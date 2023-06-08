@@ -88,7 +88,7 @@ class _TambahProdukState extends State<TambahProduk> {
                   Product produk = Product(
                       nama: _nama.text,
                       deskripsi: _deskripsi.text,
-                      stock: _stock.text,
+                      stock: int.tryParse(_stock.text),
                       harga: _harga.text,
                       ukuran: _ukuran.text,
                       foto: _foto.text);
