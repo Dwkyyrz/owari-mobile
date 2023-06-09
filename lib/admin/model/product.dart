@@ -4,11 +4,11 @@ class Product {
   String? nama;
   String? deskripsi;
   int? stock;
-  String? harga;
+  double? harga;
   String? ukuran;
   String? foto;
 
-  Product(Product product, 
+  Product(
       {this.pId,
       this.catId,
       this.nama,
@@ -16,10 +16,7 @@ class Product {
       this.stock,
       this.harga,
       this.ukuran,
-      this.foto}) {
-          // TODO: implement Product
-          throw UnimplementedError();
-        }
+      this.foto});
 
   Product.fromJson(Map<String, dynamic> json) {
     pId = json['p_id'];
@@ -47,12 +44,12 @@ class Product {
 
   Map<String, dynamic> toJsonAdd() {
     return {
-       "Nama" : nama,
-       "Deskripsi" : deskripsi,
-       "Stock" : stock,
-       "Harga" : harga,
-       "Ukuran" : ukuran,
-       "Foto" : foto
+      "Nama": nama,
+      "Deskripsi": deskripsi,
+      "Stock": stock,
+      "Harga": harga,
+      "Ukuran": ukuran,
+      "Foto": foto,
     };
   }
 }

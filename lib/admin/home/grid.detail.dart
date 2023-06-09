@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import '/admin/model/product.dart';
 
 class GridDetails extends StatefulWidget {
-  final Product product;
+  @required
+  late final Product product;
   GridDetails({required this.product});
 
   @override
@@ -28,6 +29,19 @@ class _GridDetailsState extends State<GridDetails> {
             //     image: widget.product.urlGambar),
             // ),
             SizedBox(height: 30),
+            Padding(
+              padding: EdgeInsets.all(10),
+              child: Text(
+                widget.product.nama.toString(),
+                maxLines: 1,
+                softWrap: true,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w400
+                ),
+              ),
+            ),
           ],
         ),
       ),
