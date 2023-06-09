@@ -26,10 +26,7 @@ class _RegisterPageState extends State<RegisterPage> {
     String telp = phoneController.text;
     String alamat = addressController.text;
 
-    var url = Uri.parse(
-        //'http://10.0.2.2/owari/regis.php'); // Sesuaikan URL dengan endpoint PHP Anda
-        //leo
-        'http://10.0.2.2/owari/regis.php');
+    var url = Uri.parse('https://owari-1.000webhostapp.com/api/regis.php');
     var response = await http.post(url, body: {
       'username': username,
       'email': email,

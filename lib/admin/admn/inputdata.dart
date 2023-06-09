@@ -17,6 +17,7 @@ class InputData extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 20.0),
       child: TextFormField(
         controller: Inputcontroller,
+        // ignore: body_might_complete_normally_nullable
         validator: (value) {
           if (value!.isEmpty) {
             return "$labledtext is required";

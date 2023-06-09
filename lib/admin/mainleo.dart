@@ -2,10 +2,10 @@ import '/admin/dashboard/dashboard.dart';
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(Admin());
 }
 
-class MyApp extends StatelessWidget {
+class Admin extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {

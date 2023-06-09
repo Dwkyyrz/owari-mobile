@@ -8,6 +8,10 @@ import 'package:owari/menu/home.dart';
 import 'screen/Category.dart';
 import 'package:owari/menu/new_product.dart';
 import 'package:owari/menu/new_design.dart';
+import 'package:owari/menu/admlog.dart';
+import 'package:owari/menu/profile.dart';
+import 'package:owari/admin/mainleo.dart';
+import 'package:owari/admin/dashboard/dashboard.dart';
 
 void main() {
   runApp(const MyApp());
@@ -27,6 +31,12 @@ class MyApp extends StatelessWidget {
         '/home': (context) => HomePage(),
         '/newProduct': (context) => newProduct(),
         '/newDesign': (context) => newDesign(),
+        '/userProfile': (context) => UserProfile(),
+
+        //ADMIN ROUTES
+        '/adminlogin': (context) => AdminLogin(key: UniqueKey()),
+        '/adm': (context) => Admin(),
+        '/dashboard': (context) => Dashboard(),
       },
     );
   }

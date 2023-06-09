@@ -1,4 +1,4 @@
-<?php
+    <?php
 
 // Menerima permintaan POST dari aplikasi Flutter
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -14,14 +14,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     // Membuat koneksi ke database
     $conn = new mysqli($servername, $dbUsername, $dbPassword, $dbName);
-
     // Memeriksa koneksi ke database
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
-
     // Mengeksekusi query untuk mencari pengguna dengan username dan password yang cocok
-    $query = "SELECT * FROM user WHERE email = '$email' AND password = '$password'";
+    $query = "SELECT * FROM user WHERE email = '$email' AND password = '$password' AND tipe = 'user'";
     $result = $conn->query($query);
 
     // Memeriksa apakah query berhasil dieksekusi

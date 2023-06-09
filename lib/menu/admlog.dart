@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({required Key key}) : super(key: key);
+class AdminLogin extends StatefulWidget {
+  const AdminLogin({required Key key}) : super(key: key);
 
   @override
-  _LoginPageState createState() => _LoginPageState();
+  _AdminLoginState createState() => _AdminLoginState();
 }
 
 class User {
@@ -50,14 +50,14 @@ class User {
   }
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _AdminLoginState extends State<AdminLogin> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
   Future<void> login() async {
     String email = emailController.text;
     String password = passwordController.text;
-    const url = 'https://owari-1.000webhostapp.com/api/login.php';
+    const url = 'https://owari-1.000webhostapp.com/api/adm/login.php';
     try {
       final response = await http.post(Uri.parse(url), body: {
         'email': email,
@@ -79,7 +79,7 @@ class _LoginPageState extends State<LoginPage> {
           // Simpan sesi login pengguna
           await saveUserSession(user);
 
-          Navigator.pushNamed(context, '/home');
+          Navigator.pushNamed(context, '/dashboard');
         } else {
           final errorMessage = data['message'];
           ScaffoldMessenger.of(context).showSnackBar(
@@ -149,7 +149,7 @@ class _LoginPageState extends State<LoginPage> {
               const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 16.0),
                 child: Text(
-                  'Selamat Datang! Senang Melihat Anda Kembali',
+                  'Login Sebagai Pemilik',
                   style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                   textAlign: TextAlign.start,
                 ),
@@ -197,32 +197,13 @@ class _LoginPageState extends State<LoginPage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text('Belum punya akun? '),
+                  const Text('Bukan Pemilik? '),
                   GestureDetector(
                     onTap: () {
-                      Navigator.pushNamed(context, '/register');
+                      Navigator.popAndPushNamed(context, '/login');
                     },
                     child: const Text(
-                      'Sign Up',
-                      style: TextStyle(
-                        color: Colors.blue,
-                        decoration: TextDecoration.underline,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text('Anda pemilik? '),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.popAndPushNamed(context, '/adminlogin');
-                    },
-                    child: const Text(
-                      ' Masuk',
+                      'User Sign Up',
                       style: TextStyle(
                         color: Colors.blue,
                         decoration: TextDecoration.underline,

@@ -30,6 +30,24 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  int _selectedIndex = 0;
+
+  void _onNavItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+    if (index == 0) {
+      // Navigasi ke halaman Home
+      // Misalnya, Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
+    } else if (index == 1) {
+      // Navigasi ke halaman Kategori
+      // Misalnya, Navigator.push(context, MaterialPageRoute(builder: (context) => KategoriPage()));
+    } else if (index == 2) {
+      // Navigasi ke halaman Profil
+      Navigator.pushNamed(context, '/userProfile');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -284,6 +302,24 @@ class _HomePageState extends State<HomePage> {
                 ],
               ),
             ),
+          ),
+          BottomNavigationBar(
+            currentIndex: _selectedIndex,
+            onTap: _onNavItemTapped,
+            items: [
+              BottomNavigationBarItem(
+                icon: Icon(Icons.home),
+                label: 'Home',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.category),
+                label: 'Kategori',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.person),
+                label: 'Profile',
+              ),
+            ],
           ),
         ],
       ),
