@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'Animation/FadeAnimation.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({required Key key}) : super(key: key);
@@ -103,118 +104,219 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: SafeArea(
-      child: SingleChildScrollView(
+      body: Container(
+        width: double.infinity,
+        decoration: BoxDecoration(color: Colors.yellow.withOpacity(0.5)),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Image.asset('assets/logo.png', width: 150, height: 150),
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            SizedBox(
+              height: 25,
             ),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.0),
-              child: Text(
-                'Selamat Datang! Yuk Buat Akun Dulu!',
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                textAlign: TextAlign.start,
-              ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                FadeAnimation(
+                  1,
+                  Align(
+                    alignment: Alignment.center,
+                    child: FractionallySizedBox(
+                      child: Image.asset(
+                        'assets/logo.png',
+                        width: 250,
+                        height: 170,
+                      ),
+                    ),
+                  ),
+                )
+              ],
             ),
-            const SizedBox(height: 20), //membuat GAP
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: TextFormField(
-                controller: usernameController,
-                decoration: const InputDecoration(
-                  labelText: 'Username',
-                  prefixIcon: Icon(Icons.people),
-                ),
-              ),
-            ),
-            const SizedBox(height: 20), //membuat GAP
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: TextFormField(
-                controller: emailController,
-                decoration: const InputDecoration(
-                  labelText: 'Email',
-                  prefixIcon: Icon(Icons.email),
-                ),
-              ),
-            ),
-            const SizedBox(height: 10),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: TextFormField(
-                controller: passwordController,
-                decoration: const InputDecoration(
-                  labelText: 'Password',
-                  prefixIcon: Icon(Icons.lock),
-                  suffixIcon: Icon(Icons.visibility),
-                ),
-                obscureText: true,
-              ),
-            ),
-            const SizedBox(height: 20), //membuat GAP
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: TextFormField(
-                controller: phoneController,
-                decoration: const InputDecoration(
-                  labelText: 'No.Telp',
-                  prefixIcon: Icon(Icons.phone),
-                ),
-              ),
-            ),
-            const SizedBox(height: 20), //membuat GAP
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: TextFormField(
-                controller: addressController,
-                decoration: const InputDecoration(
-                  labelText: 'Alamat',
-                  prefixIcon: Icon(Icons.home),
-                ),
-              ),
-            ),
-            const SizedBox(height: 50),
-            ElevatedButton(
-              onPressed: () {
-                register();
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.black,
-                // Atur padding sesuai kebutuhan
-                minimumSize: Size(
-                  MediaQuery.of(context).size.width *
-                      0.9, // 90% dari lebar screen
-                  46.0, // Tinggi tombol
-                ),
-              ),
-              child: const Text('Sign Up'),
-            ),
-            const SizedBox(height: 20),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text('Sudah punya akun? '),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.popAndPushNamed(context, '/login');
-                  },
-                  child: const Text(
-                    'Sign In',
-                    style: TextStyle(
-                      color: Colors.blue,
-                      decoration: TextDecoration.underline,
+            // SizedBox(height: 20),
+            Expanded(
+              child: Container(
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(60),
+                        topRight: Radius.circular(60))),
+                child: SingleChildScrollView(
+                  child: Padding(
+                    padding: EdgeInsets.all(30),
+                    child: Column(
+                      children: <Widget>[
+                        FadeAnimation(
+                            1.5,
+                            Text(
+                              "SIGN UP",
+                              style: TextStyle(
+                                color: const Color.fromARGB(255, 0, 0, 0),
+                                fontSize: 24,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            )),
+                        SizedBox(
+                          height: 25,
+                        ),
+                        FadeAnimation(
+                            1.4,
+                            Container(
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(10),
+                                  boxShadow: [
+                                    BoxShadow(
+                                        color: Color.fromARGB(90, 255, 185, 46),
+                                        blurRadius: 8,
+                                        offset: Offset(0, 0))
+                                  ]),
+                              child: Column(
+                                children: <Widget>[
+                                  Container(
+                                    padding: EdgeInsets.all(7),
+                                    decoration: BoxDecoration(
+                                        border: Border(
+                                            bottom: BorderSide(
+                                                color: Color.fromARGB(
+                                                    255, 240, 240, 240)))),
+                                    child: TextField(
+                                        controller: usernameController,
+                                        decoration: const InputDecoration(
+                                          labelText: 'Username',
+                                          prefixIcon: Icon(Icons.people),
+                                          border: InputBorder.none,
+                                        )),
+                                  ),
+                                  Container(
+                                    padding: EdgeInsets.all(7),
+                                    decoration: BoxDecoration(
+                                        border: Border(
+                                            bottom: BorderSide(
+                                                color: Color.fromARGB(
+                                                    255, 240, 240, 240)))),
+                                    child: TextField(
+                                        controller: emailController,
+                                        decoration: const InputDecoration(
+                                          labelText: 'Email',
+                                          prefixIcon: Icon(Icons.email),
+                                          border: InputBorder.none,
+                                        )),
+                                  ),
+                                  Container(
+                                    padding: EdgeInsets.all(7),
+                                    decoration: BoxDecoration(
+                                        border: Border(
+                                            bottom: BorderSide(
+                                                color: const Color.fromARGB(
+                                                    255, 237, 237, 237)))),
+                                    child: TextField(
+                                      controller: passwordController,
+                                      decoration: const InputDecoration(
+                                          labelText: 'Password',
+                                          prefixIcon: Icon(Icons.lock),
+                                          suffixIcon: Icon(Icons.visibility),
+                                          border: InputBorder.none),
+                                      obscureText: true,
+                                    ),
+                                  ),
+                                  Container(
+                                    padding: EdgeInsets.all(7),
+                                    decoration: BoxDecoration(
+                                        border: Border(
+                                            bottom: BorderSide(
+                                                color: const Color.fromARGB(
+                                                    255, 237, 237, 237)))),
+                                    child: TextField(
+                                      controller: phoneController,
+                                      decoration: const InputDecoration(
+                                          labelText: 'Nomor Telepon',
+                                          prefixIcon: Icon(Icons.phone),
+                                          border: InputBorder.none),
+                                    ),
+                                  ),
+                                  Container(
+                                    padding: EdgeInsets.all(7),
+                                    decoration: BoxDecoration(
+                                        border: Border(
+                                            bottom: BorderSide(
+                                                color: const Color.fromARGB(
+                                                    255, 237, 237, 237)))),
+                                    child: TextField(
+                                      controller: addressController,
+                                      decoration: const InputDecoration(
+                                          labelText: 'Alamat',
+                                          prefixIcon: Icon(Icons.home),
+                                          border: InputBorder.none),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )),
+                        SizedBox(
+                          height: 30,
+                        ),
+                        FadeAnimation(
+                          1.6,
+                          ElevatedButton(
+                            onPressed: () {
+                              register();
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.yellow.withOpacity(1),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(50),
+                              ),
+                            ),
+                            child: Container(
+                              height: 50,
+                              margin: EdgeInsets.symmetric(horizontal: 50),
+                              child: Center(
+                                child: Text(
+                                  "SIGN UP",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 25,
+                        ),
+                        FadeAnimation(
+                            1.7,
+                            Column(
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    const Text('Sudah punya akun? '),
+                                    GestureDetector(
+                                      onTap: () {
+                                        Navigator.pushNamed(context, '/login');
+                                      },
+                                      child: const Text(
+                                        'Sign In',
+                                        style: TextStyle(
+                                          color: Colors.blue,
+                                          decoration: TextDecoration.underline,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            )),
+                      ],
                     ),
                   ),
                 ),
-              ],
-            ),
+              ),
+            )
           ],
         ),
       ),
-    ));
+    );
   }
 }

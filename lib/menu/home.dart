@@ -37,14 +37,11 @@ class _HomePageState extends State<HomePage> {
       _selectedIndex = index;
     });
     if (index == 0) {
-      // Navigasi ke halaman Home
-      // Misalnya, Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
+      Navigator.popAndPushNamed(context, '/home');
     } else if (index == 1) {
-      // Navigasi ke halaman Kategori
-      // Misalnya, Navigator.push(context, MaterialPageRoute(builder: (context) => KategoriPage()));
+      Navigator.popAndPushNamed(context, '/kategori');
     } else if (index == 2) {
-      // Navigasi ke halaman Profil
-      Navigator.pushNamed(context, '/userProfile');
+      Navigator.popAndPushNamed(context, '/userProfile');
     }
   }
 
@@ -306,6 +303,7 @@ class _HomePageState extends State<HomePage> {
           BottomNavigationBar(
             currentIndex: _selectedIndex,
             onTap: _onNavItemTapped,
+            selectedItemColor: Colors.yellow.withOpacity(1),
             items: [
               BottomNavigationBarItem(
                 icon: Icon(Icons.home),
