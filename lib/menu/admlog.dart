@@ -213,12 +213,14 @@ class _AdminLoginState extends State<AdminLogin> {
                                                 color: Color.fromARGB(
                                                     255, 240, 240, 240)))),
                                     child: TextField(
-                                        controller: emailController,
-                                        decoration: const InputDecoration(
-                                          labelText: 'Email',
-                                          prefixIcon: Icon(Icons.email),
-                                          border: InputBorder.none,
-                                        )),
+                                      controller: emailController,
+                                      decoration: const InputDecoration(
+                                        labelText: 'Email',
+                                        prefixIcon: Icon(Icons.email),
+                                        border: InputBorder.none,
+                                      ),
+                                      keyboardType: TextInputType.emailAddress,
+                                    ),
                                   ),
                                   Container(
                                     padding: EdgeInsets.all(10),

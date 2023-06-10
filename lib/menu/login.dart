@@ -127,12 +127,12 @@ class _LoginPageState extends State<LoginPage> {
     super.initState();
 
     // Cek apakah pengguna sudah login sebelumnya
-    // checkUserLoggedIn().then((isLoggedIn) {
-    //   if (isLoggedIn) {
-    //     // Jika pengguna sudah login sebelumnya, langsung pindah ke halaman '/userProfile'
-    //     Navigator.pushNamed(context, '/home');
-    //   }
-    // });
+    checkUserLoggedIn().then((isLoggedIn) {
+      if (isLoggedIn) {
+        // Jika pengguna sudah login sebelumnya, langsung pindah ke halaman '/userProfile'
+        Navigator.pushNamed(context, '/home');
+      }
+    });
   }
 
   @override
@@ -213,12 +213,14 @@ class _LoginPageState extends State<LoginPage> {
                                                 color: Color.fromARGB(
                                                     255, 240, 240, 240)))),
                                     child: TextField(
-                                        controller: emailController,
-                                        decoration: const InputDecoration(
-                                          labelText: 'Email',
-                                          prefixIcon: Icon(Icons.email),
-                                          border: InputBorder.none,
-                                        )),
+                                      controller: emailController,
+                                      decoration: const InputDecoration(
+                                        labelText: 'Email',
+                                        prefixIcon: Icon(Icons.email),
+                                        border: InputBorder.none,
+                                      ),
+                                      keyboardType: TextInputType.emailAddress,
+                                    ),
                                   ),
                                   Container(
                                     padding: EdgeInsets.all(10),

@@ -194,12 +194,14 @@ class _RegisterPageState extends State<RegisterPage> {
                                                 color: Color.fromARGB(
                                                     255, 240, 240, 240)))),
                                     child: TextField(
-                                        controller: emailController,
-                                        decoration: const InputDecoration(
-                                          labelText: 'Email',
-                                          prefixIcon: Icon(Icons.email),
-                                          border: InputBorder.none,
-                                        )),
+                                      controller: emailController,
+                                      decoration: const InputDecoration(
+                                        labelText: 'Email',
+                                        prefixIcon: Icon(Icons.email),
+                                        border: InputBorder.none,
+                                      ),
+                                      keyboardType: TextInputType.emailAddress,
+                                    ),
                                   ),
                                   Container(
                                     padding: EdgeInsets.all(7),
@@ -231,6 +233,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                           labelText: 'Nomor Telepon',
                                           prefixIcon: Icon(Icons.phone),
                                           border: InputBorder.none),
+                                      keyboardType: TextInputType.phone,
                                     ),
                                   ),
                                   Container(

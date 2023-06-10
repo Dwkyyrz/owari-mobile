@@ -9,9 +9,14 @@ import 'screen/Category.dart';
 import 'package:owari/menu/new_product.dart';
 import 'package:owari/menu/new_design.dart';
 import 'package:owari/menu/admlog.dart';
-import 'package:owari/menu/profile.dart';
+import 'package:owari/menu/profile/profile.dart';
 import 'package:owari/admin/mainleo.dart';
 import 'package:owari/admin/dashboard/dashboard.dart';
+import 'package:owari/menu/profile/update_akun.dart';
+import 'package:owari/menu/profile/riwayat.dart';
+import 'package:owari/menu/profile/wishlist.dart';
+import 'package:owari/menu/profile/privacy&policy.dart';
+import 'package:owari/menu/profile/tentang.dart';
 
 void main() {
   runApp(const MyApp());
@@ -31,7 +36,14 @@ class MyApp extends StatelessWidget {
         '/home': (context) => HomePage(),
         '/newProduct': (context) => newProduct(),
         '/newDesign': (context) => newDesign(),
+
+        //PROFILLLLLLL
         '/userProfile': (context) => UserProfile(),
+        '/updateProfile': (context) => UpdateProfilePage(),
+        '/riwayat': (context) => RiwayatPembelian(),
+        '/wishlist': (context) => Wishlist(),
+        '/kebijakan': (context) => PrivacyAndPolicy(),
+        '/tentang': (context) => AboutOwari(),
 
         //ADMIN ROUTES
         '/adminlogin': (context) => AdminLogin(key: UniqueKey()),

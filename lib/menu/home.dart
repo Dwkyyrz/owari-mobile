@@ -9,6 +9,27 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  bool _isDrawerOpen = false;
+
+  void _toggleDrawer() {
+    setState(() {
+      _isDrawerOpen = !_isDrawerOpen;
+    });
+    if (_isDrawerOpen) {
+      _scaffoldKey.currentState?.openDrawer();
+    } else {
+      _scaffoldKey.currentState?.openEndDrawer();
+    }
+  }
+
+  void _closeDrawer() {
+    setState(() {
+      _isDrawerOpen = false;
+    });
+    Navigator.of(context).pop();
+  }
+
   void navigateToDetailProduct() {
     Navigator.push(
       context,
@@ -37,291 +58,328 @@ class _HomePageState extends State<HomePage> {
       _selectedIndex = index;
     });
     if (index == 0) {
-      Navigator.popAndPushNamed(context, '/home');
+      Navigator.pushNamed(context, '/home');
     } else if (index == 1) {
-      Navigator.popAndPushNamed(context, '/kategori');
+      Navigator.pushNamed(context, '/kategori');
     } else if (index == 2) {
-      Navigator.popAndPushNamed(context, '/userProfile');
+      Navigator.pushNamed(context, '/userProfile');
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        key: _scaffoldKey,
         body: SafeArea(
-      child: Column(
-        children: [
-          Container(
-            padding: EdgeInsets.all(16),
-            alignment: Alignment.center,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                IconButton(
-                  icon: Icon(Icons.menu),
-                  onPressed: () {
-                    // Kode aksi saat tombol pencarian ditekan
-                    // Tambahkan logika sesuai kebutuhan Anda
-                  },
+          child: Column(
+            children: [
+              Container(
+                padding: EdgeInsets.all(16),
+                alignment: Alignment.center,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    IconButton(
+                        icon: Icon(Icons.menu), onPressed: _toggleDrawer),
+                    Padding(
+                      padding: const EdgeInsets.all(0),
+                      child: Image.asset('assets/logo.png',
+                          width: 100, height: 80),
+                    ),
+                    IconButton(
+                      icon: Icon(Icons.search),
+                      onPressed: () {
+                        // Kode aksi saat tombol pencarian ditekan
+                        // Tambahkan logika sesuai kebutuhan Anda
+                      },
+                    ),
+                  ],
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(0),
-                  child: Image.asset('assets/logo.png', width: 100, height: 80),
-                ),
-                IconButton(
-                  icon: Icon(Icons.search),
-                  onPressed: () {
-                    // Kode aksi saat tombol pencarian ditekan
-                    // Tambahkan logika sesuai kebutuhan Anda
-                  },
-                ),
-              ],
-            ),
-          ),
-          // Container(
-          //   padding: EdgeInsets.all(16),
-          //   alignment: Alignment.center,
-          //   child:
-          // ),
-          Expanded(
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  Container(
-                    height: 10,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              ),
+              // Container(
+              //   padding: EdgeInsets.all(16),
+              //   alignment: Alignment.center,
+              //   child:
+              // ),
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
                     children: [
-                      GestureDetector(
-                        onTap: navigateToNewDesignPage,
-                        child: Stack(
-                          children: [
-                            Container(
-                              width: 140,
-                              height: 140,
-                              decoration: BoxDecoration(
-                                image: DecorationImage(
-                                  image: AssetImage('assets/1.png'),
-                                  fit: BoxFit.cover,
+                      Container(
+                        height: 10,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          GestureDetector(
+                            onTap: navigateToNewDesignPage,
+                            child: Stack(
+                              children: [
+                                Container(
+                                  width: 140,
+                                  height: 140,
+                                  decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                      image: AssetImage('assets/1.png'),
+                                      fit: BoxFit.cover,
+                                    ),
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
                                 ),
-                                borderRadius: BorderRadius.circular(10),
-                              ),
+                                Container(
+                                  width: 140,
+                                  height: 140,
+                                  alignment: Alignment.center,
+                                  child: Container(
+                                    padding: EdgeInsets.all(10),
+                                    alignment: Alignment.bottomRight,
+                                    child: Text(
+                                      'OWARI',
+                                      style: TextStyle(
+                                          fontSize: 38,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white.withOpacity(0.8)),
+                                      textAlign: TextAlign.start,
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  width: 140,
+                                  height: 140,
+                                  alignment: Alignment.center,
+                                  decoration: BoxDecoration(
+                                    color: Colors.black.withOpacity(0.8),
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  // Pengaturan opasitas di sini
+                                  child: Container(
+                                    padding: EdgeInsets.all(20),
+                                    alignment: Alignment.topLeft,
+                                    child: Text(
+                                      'New Design',
+                                      style: TextStyle(
+                                          fontSize: 24,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white),
+                                      textAlign: TextAlign.start,
+                                    ),
+                                  ),
+                                )
+                              ],
                             ),
-                            Container(
-                              width: 140,
-                              height: 140,
-                              alignment: Alignment.center,
-                              child: Container(
-                                padding: EdgeInsets.all(10),
-                                alignment: Alignment.bottomRight,
-                                child: Text(
-                                  'OWARI',
-                                  style: TextStyle(
-                                      fontSize: 38,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white.withOpacity(0.8)),
-                                  textAlign: TextAlign.start,
-                                ),
-                              ),
-                            ),
-                            Container(
-                              width: 140,
-                              height: 140,
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                color: Colors.black.withOpacity(0.8),
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              // Pengaturan opasitas di sini
-                              child: Container(
-                                padding: EdgeInsets.all(20),
-                                alignment: Alignment.topLeft,
-                                child: Text(
-                                  'New Design',
-                                  style: TextStyle(
-                                      fontSize: 24,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white),
-                                  textAlign: TextAlign.start,
-                                ),
-                              ),
-                            )
-                          ],
+                          ),
+                          GestureDetector(
+                              onTap: navigateToNewProductPage,
+                              child: Stack(
+                                children: [
+                                  Container(
+                                    width: 140,
+                                    height: 140,
+                                    decoration: BoxDecoration(
+                                      image: DecorationImage(
+                                        image: AssetImage('assets/6.png'),
+                                        fit: BoxFit.cover,
+                                      ),
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                  ),
+                                  Container(
+                                    width: 140,
+                                    height: 140,
+                                    alignment: Alignment.center,
+                                    child: Container(
+                                      padding: EdgeInsets.all(10),
+                                      alignment: Alignment.bottomRight,
+                                      child: Text(
+                                        'OWARI',
+                                        style: TextStyle(
+                                            fontSize: 38,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.white),
+                                        textAlign: TextAlign.start,
+                                      ),
+                                    ),
+                                  ),
+                                  Container(
+                                    width: 140,
+                                    height: 140,
+                                    alignment: Alignment.center,
+                                    decoration: BoxDecoration(
+                                      color:
+                                          const Color.fromARGB(255, 105, 0, 0)
+                                              .withOpacity(0.8),
+                                      borderRadius: BorderRadius.circular(10),
+                                    ), // Pengaturan opasitas di sini
+                                    child: Container(
+                                      padding: EdgeInsets.all(20),
+                                      alignment: Alignment.topLeft,
+                                      child: Text(
+                                        'New Product',
+                                        style: TextStyle(
+                                            fontSize: 24,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.white),
+                                        textAlign: TextAlign.start,
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ))
+                        ],
+                      ),
+                      ////////////////////////////////
+                      ///////PRODUKKKKKKKKK///////////
+                      ////////////////////////////////
+                      Container(
+                        padding: EdgeInsets.only(top: 15, bottom: 10),
+                        alignment: Alignment.center,
+                        child: Text(
+                          'Produk Terlaris',
+                          style: TextStyle(
+                              // fontFamily: 'MonumentExtended-Reguler',
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold),
+                          textAlign: TextAlign.start,
                         ),
                       ),
-                      GestureDetector(
-                          onTap: navigateToNewProductPage,
-                          child: Stack(
-                            children: [
-                              Container(
-                                width: 140,
-                                height: 140,
-                                decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                    image: AssetImage('assets/6.png'),
-                                    fit: BoxFit.cover,
-                                  ),
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                              ),
-                              Container(
-                                width: 140,
-                                height: 140,
-                                alignment: Alignment.center,
-                                child: Container(
-                                  padding: EdgeInsets.all(10),
-                                  alignment: Alignment.bottomRight,
-                                  child: Text(
-                                    'OWARI',
-                                    style: TextStyle(
-                                        fontSize: 38,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.white),
-                                    textAlign: TextAlign.start,
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                width: 140,
-                                height: 140,
-                                alignment: Alignment.center,
-                                decoration: BoxDecoration(
-                                  color: const Color.fromARGB(255, 105, 0, 0)
-                                      .withOpacity(0.8),
-                                  borderRadius: BorderRadius.circular(10),
-                                ), // Pengaturan opasitas di sini
-                                child: Container(
-                                  padding: EdgeInsets.all(20),
-                                  alignment: Alignment.topLeft,
-                                  child: Text(
-                                    'New Product',
-                                    style: TextStyle(
-                                        fontSize: 24,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.white),
-                                    textAlign: TextAlign.start,
-                                  ),
-                                ),
-                              )
-                            ],
-                          ))
+                      // Komponen-komponen custom
+                      MarketPlaceItem(
+                        title: 'Kaos Gundam',
+                        description:
+                            'kaos premium dengan bahan premium serta kualitas sablon premium',
+                        price: '\$10',
+                        image: 'assets/1.png',
+                        onTap: navigateToDetailProduct,
+                      ),
+                      MarketPlaceItem(
+                        title: 'Kaos GameMachine',
+                        description:
+                            'kaos premium dengan bahan premium serta kualitas sablon premium',
+                        price: '\$20',
+                        image: 'assets/2.jpg',
+                        onTap: navigateToDetailProduct,
+                      ),
+                      MarketPlaceItem(
+                        title: 'Item 3',
+                        description:
+                            'kaos premium dengan bahan premium serta kualitas sablon premium',
+                        price: '\$15',
+                        image: 'assets/3.png',
+                        onTap: navigateToDetailProduct,
+                      ),
+                      MarketPlaceItem(
+                        title: 'Item 4',
+                        description:
+                            'kaos premium dengan bahan premium serta kualitas sablon premium',
+                        price: '\$25',
+                        image: 'assets/4.png',
+                        onTap: navigateToDetailProduct,
+                      ),
+                      MarketPlaceItem(
+                        title: 'Item 5',
+                        description:
+                            'kaos premium dengan bahan premium serta kualitas sablon premium',
+                        price: '\$30',
+                        image: 'assets/5.png',
+                        onTap: navigateToDetailProduct,
+                      ),
+                      MarketPlaceItem(
+                        title: 'Item 6',
+                        description:
+                            'kaos premium dengan bahan premium serta kualitas sablon premium',
+                        price: '\$30',
+                        image: 'assets/6.png',
+                        onTap: navigateToDetailProduct,
+                      ),
+                      MarketPlaceItem(
+                        title: 'Item 5',
+                        description:
+                            'kaos premium dengan bahan premium serta kualitas sablon premium',
+                        price: '\$30',
+                        image: 'assets/7.jpg',
+                        onTap: navigateToDetailProduct,
+                      ),
+                      MarketPlaceItem(
+                        title: 'Item 5',
+                        description:
+                            'kaos premium dengan bahan premium serta kualitas sablon premium',
+                        price: '\$30',
+                        image: 'assets/8.png',
+                        onTap: navigateToDetailProduct,
+                      ),
+                      MarketPlaceItem(
+                        title: 'Item 5',
+                        description:
+                            'kaos premium dengan bahan premium serta kualitas sablon premium',
+                        price: '\$30',
+                        image: 'assets/9.png',
+                        onTap: navigateToDetailProduct,
+                      ),
                     ],
                   ),
-                  ////////////////////////////////
-                  ///////PRODUKKKKKKKKK///////////
-                  ////////////////////////////////
-                  Container(
-                    padding: EdgeInsets.only(top: 15, bottom: 10),
-                    alignment: Alignment.center,
-                    child: Text(
-                      'Produk Terlaris',
-                      style: TextStyle(
-                          // fontFamily: 'MonumentExtended-Reguler',
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold),
-                      textAlign: TextAlign.start,
-                    ),
+                ),
+              ),
+
+              BottomNavigationBar(
+                currentIndex: _selectedIndex,
+                onTap: _onNavItemTapped,
+                selectedItemColor: Colors.yellow.withOpacity(1),
+                items: [
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.home),
+                    label: 'Home',
                   ),
-                  // Komponen-komponen custom
-                  MarketPlaceItem(
-                    title: 'Kaos Gundam',
-                    description:
-                        'kaos premium dengan bahan premium serta kualitas sablon premium',
-                    price: '\$10',
-                    image: 'assets/1.png',
-                    onTap: navigateToDetailProduct,
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.category),
+                    label: 'Kategori',
                   ),
-                  MarketPlaceItem(
-                    title: 'Kaos GameMachine',
-                    description:
-                        'kaos premium dengan bahan premium serta kualitas sablon premium',
-                    price: '\$20',
-                    image: 'assets/2.jpg',
-                    onTap: navigateToDetailProduct,
-                  ),
-                  MarketPlaceItem(
-                    title: 'Item 3',
-                    description:
-                        'kaos premium dengan bahan premium serta kualitas sablon premium',
-                    price: '\$15',
-                    image: 'assets/3.png',
-                    onTap: navigateToDetailProduct,
-                  ),
-                  MarketPlaceItem(
-                    title: 'Item 4',
-                    description:
-                        'kaos premium dengan bahan premium serta kualitas sablon premium',
-                    price: '\$25',
-                    image: 'assets/4.png',
-                    onTap: navigateToDetailProduct,
-                  ),
-                  MarketPlaceItem(
-                    title: 'Item 5',
-                    description:
-                        'kaos premium dengan bahan premium serta kualitas sablon premium',
-                    price: '\$30',
-                    image: 'assets/5.png',
-                    onTap: navigateToDetailProduct,
-                  ),
-                  MarketPlaceItem(
-                    title: 'Item 6',
-                    description:
-                        'kaos premium dengan bahan premium serta kualitas sablon premium',
-                    price: '\$30',
-                    image: 'assets/6.png',
-                    onTap: navigateToDetailProduct,
-                  ),
-                  MarketPlaceItem(
-                    title: 'Item 5',
-                    description:
-                        'kaos premium dengan bahan premium serta kualitas sablon premium',
-                    price: '\$30',
-                    image: 'assets/7.jpg',
-                    onTap: navigateToDetailProduct,
-                  ),
-                  MarketPlaceItem(
-                    title: 'Item 5',
-                    description:
-                        'kaos premium dengan bahan premium serta kualitas sablon premium',
-                    price: '\$30',
-                    image: 'assets/8.png',
-                    onTap: navigateToDetailProduct,
-                  ),
-                  MarketPlaceItem(
-                    title: 'Item 5',
-                    description:
-                        'kaos premium dengan bahan premium serta kualitas sablon premium',
-                    price: '\$30',
-                    image: 'assets/9.png',
-                    onTap: navigateToDetailProduct,
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.person),
+                    label: 'Profile',
                   ),
                 ],
               ),
-            ),
-          ),
-          BottomNavigationBar(
-            currentIndex: _selectedIndex,
-            onTap: _onNavItemTapped,
-            selectedItemColor: Colors.yellow.withOpacity(1),
-            items: [
-              BottomNavigationBarItem(
-                icon: Icon(Icons.home),
-                label: 'Home',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.category),
-                label: 'Kategori',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.person),
-                label: 'Profile',
-              ),
             ],
           ),
-        ],
-      ),
-    ));
+        ),
+        drawer: GestureDetector(
+          onTap: _closeDrawer,
+          child: Drawer(
+            child: ListView(
+              padding: EdgeInsets.zero,
+              children: <Widget>[
+                DrawerHeader(
+                  decoration: BoxDecoration(
+                    color: Colors.blue,
+                  ),
+                  child: Text(
+                    'Sidebar',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 24,
+                    ),
+                  ),
+                ),
+                ListTile(
+                  title: Text('Menu Item 1'),
+                  onTap: () {
+                    // Add your logic here for when the sidebar menu item is clicked
+                    // For example, you can navigate to a different page
+                    _closeDrawer(); // Close the sidebar
+                  },
+                ),
+                ListTile(
+                  title: Text('Menu Item 2'),
+                  onTap: () {
+                    // Add your logic here
+                    _closeDrawer(); // Close the sidebar
+                  },
+                ),
+                // Add more ListTile widgets for additional menu items
+              ],
+            ),
+          ),
+        ));
   }
 }
 

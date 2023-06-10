@@ -59,6 +59,7 @@ class _UserProfileState extends State<UserProfile> {
   void initState() {
     super.initState();
     checkUserLoggedIn();
+    refreshUserData();
   }
 
   Future<void> checkUserLoggedIn() async {
@@ -81,6 +82,7 @@ class _UserProfileState extends State<UserProfile> {
   Future<void> logout() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.remove('user');
+    await prefs.remove('isLoggedIn');
     goToLoginPage();
   }
 
@@ -90,11 +92,22 @@ class _UserProfileState extends State<UserProfile> {
       _selectedIndex = index;
     });
     if (index == 0) {
-      Navigator.popAndPushNamed(context, '/home');
+      Navigator.pushNamed(context, '/home');
     } else if (index == 1) {
-      Navigator.popAndPushNamed(context, '/kategori');
+      Navigator.pushNamed(context, '/kategori');
     } else if (index == 2) {
-      Navigator.popAndPushNamed(context, '/userProfile');
+      Navigator.pushNamed(context, '/userProfile');
+    }
+  }
+
+  Future<void> refreshUserData() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final String? userString = prefs.getString('user');
+    if (userString != null) {
+      final userMap = jsonDecode(userString);
+      setState(() {
+        user = User.fromJson(userMap);
+      });
     }
   }
 
@@ -132,6 +145,7 @@ class _UserProfileState extends State<UserProfile> {
                       ),
                     ),
                   ),
+                  const SizedBox(height: 5),
                   Center(
                     child: Text(
                       '${user!.email}',
@@ -154,31 +168,31 @@ class _UserProfileState extends State<UserProfile> {
                   customListTile(
                     icon: Icons.people_outline,
                     text: "Informasi Akun",
-                    onTap: () => null,
+                    onTap: () => Navigator.pushNamed(context, '/updateProfile'),
                   ),
                   const SizedBox(height: 10),
                   customListTile(
                     icon: Icons.history,
                     text: "Riwayat Pembelian",
-                    onTap: () => null,
+                    onTap: () => Navigator.pushNamed(context, '/riwayat'),
                   ),
                   const SizedBox(height: 10),
                   customListTile(
                     icon: Icons.favorite_border_outlined,
                     text: "Wishlist",
-                    onTap: () => null,
+                    onTap: () => Navigator.pushNamed(context, '/wishlist'),
                   ),
                   const SizedBox(height: 10),
                   customListTile(
                     icon: Icons.privacy_tip_outlined,
                     text: "Kebijakan dan Privacy",
-                    onTap: () => null,
+                    onTap: () => Navigator.pushNamed(context, '/kebijakan'),
                   ),
                   const SizedBox(height: 10),
                   customListTile(
                     icon: Icons.info_outline,
                     text: "About Owari",
-                    onTap: () => null,
+                    onTap: () => Navigator.pushNamed(context, '/tentang'),
                   ),
                   const SizedBox(height: 10),
                   Expanded(
@@ -262,136 +276,3 @@ Widget customListTile({
     ),
   );
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//       child: Expanded(
-//         child: Column(
-//           children: [
-//             Container(
-//               height: 200,
-//               color: Colors.blue,
-//               child: Center(
-//                 child: CircleAvatar(
-//                   radius: 50,
-//                   backgroundImage: AssetImage('assets/profile_picture.jpg'),
-//                 ),
-//               ),
-//             ),
-//             SizedBox(height: 16),
-//             Text(
-//               '${user!.name}',
-//               style: TextStyle(
-//                 fontSize: 24,
-//                 fontWeight: FontWeight.bold,
-//               ),
-//             ),
-//             SizedBox(height: 8),
-//             Text(
-//               '${user!.email}',
-//               style: TextStyle(fontSize: 16),
-//             ),
-//             SizedBox(height: 16),
-//             SingleChildScrollView(
-//               child: Column(
-//                 children: [
-//                   ListTile(
-//                     leading: Icon(Icons.person),
-//                     title: Text('Personal Information'),
-//                     trailing: Icon(Icons.arrow_forward_ios),
-//                     onTap: () {
-//                       // Tambahkan navigasi ke halaman informasi pribadi
-//                     },
-//                   ),
-//                   ListTile(
-//                     leading: Icon(Icons.payment),
-//                     title: Text('Payment Methods'),
-//                     trailing: Icon(Icons.arrow_forward_ios),
-//                     onTap: () {
-//                       // Tambahkan navigasi ke halaman metode pembayaran
-//                     },
-//                   ),
-//                   ListTile(
-//                     leading: Icon(Icons.settings),
-//                     title: Text('Settings'),
-//                     trailing: Icon(Icons.arrow_forward_ios),
-//                     onTap: () {
-//                       // Tambahkan navigasi ke halaman pengaturan
-//                     },
-//                   ),
-//                   ListTile(
-//                     leading: Icon(Icons.help),
-//                     title: Text('Help & Support'),
-//                     trailing: Icon(Icons.arrow_forward_ios),
-//                     onTap: () {
-//                       // Tambahkan navigasi ke halaman bantuan dan dukungan
-//                     },
-//                   ),
-//                 ],
-//               ),
-//             ),
-//             BottomNavigationBar(
-//               currentIndex: _selectedIndex,
-//               onTap: _onNavItemTapped,
-//               items: [
-//                 BottomNavigationBarItem(
-//                   icon: Icon(Icons.home),
-//                   label: 'Home',
-//                 ),
-//                 BottomNavigationBarItem(
-//                   icon: Icon(Icons.category),
-//                   label: 'Kategori',
-//                 ),
-//                 BottomNavigationBarItem(
-//                   icon: Icon(Icons.person),
-//                   label: 'Profile',
-//                 ),
-//               ],
-//             ),
-//           ],
-//         ),
-//       ),
-//     ));
-//   }
-// }
-
-// Padding(
-//         padding: EdgeInsets.all(16.0),
-//         child: Column(
-//           crossAxisAlignment: CrossAxisAlignment.start,
-//           children: [
-//             Text('ID User: ${user!.id}'),
-//             Text('Name: ${user!.name}'),
-//             Text('Email: ${user!.email}'),
-//             Text('Phone Number: ${user!.phoneNumber}'),
-//             Text('Address: ${user!.address}'),
-//             ElevatedButton(
-//               onPressed: () {
-//                 logout();
-//               },
-//               child: Text('Logout'),
-//             ),
-//           ],
-//         ),
-//       ),
