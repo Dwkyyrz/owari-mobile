@@ -20,7 +20,7 @@ class _HomeState extends State<Home> {
   Future _getdata() async {
     try {
       final response = await http
-          .get(Uri.parse('https://owari-1.000webhostapp.com/owari/api.php'));
+          .get(Uri.parse('https://owari-1.000webhostapp.com/api/read_produk.php'));
       if (response.statusCode == 200) {
         // print(response.body);
         final data = jsonDecode(response.body);
@@ -34,12 +34,12 @@ class _HomeState extends State<Home> {
     }
   }
 
-  Future _hapus(String nama) async {
+  Future _hapus(String id) async {
     try {
       final response = await http.post(
-          Uri.parse('https://owari-1.000webhostapp.com/owari/del_produk.php'),
+          Uri.parse('https://owari-1.000webhostapp.com/api/del_produk.php'),
           body: {
-            "nama": nama,
+            'p_id': id,
           });
       if (response.statusCode == 200) {
         return true;
@@ -82,7 +82,7 @@ class _HomeState extends State<Home> {
                           MaterialPageRoute(
                               builder: ((context) => EditData(ListData: {
                                     "p_id": _listdata[index]['p_id'],
-                                    "cat_id": _listdata[index]['cat_id'],
+                                    "category": _listdata[index]['category'],
                                     "nama": _listdata[index]['nama'],
                                     "deskripsi": _listdata[index]['deskripsi'],
                                     "stock": _listdata[index]['stock'],
@@ -104,7 +104,7 @@ class _HomeState extends State<Home> {
                                     actions: [
                                       ElevatedButton(
                                           onPressed: () {
-                                            _hapus(_listdata[index]['nama'])
+                                            _hapus(_listdata[index]['p_id'].toString())
                                                 .then((value) {
                                               if (value) {
                                                 scaffoldMessangerKey
