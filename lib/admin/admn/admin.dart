@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:owari/admin/admn/tambahproduk.dart';
+import '/admin/home/home.dart';
 
 class Admin extends StatefulWidget {
   @override
@@ -15,7 +15,7 @@ class _AdminPageState extends State<Admin> {
         child: ElevatedButton(
             onPressed: () {
               Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => TambahProduk()));
+                  MaterialPageRoute(builder: (context) => (Home())));
             },
             child: Text("Ke halaman 2")),
       ),

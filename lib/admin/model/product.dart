@@ -4,7 +4,7 @@ class Product {
   String? nama;
   String? deskripsi;
   int? stock;
-  double? harga;
+  String? harga;
   String? ukuran;
   String? foto;
 

@@ -1,72 +1,159 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:owari/admin/home/grid.detail.dart';
-import 'package:owari/admin/home/grid_cell.dart';
-import 'package:owari/admin/model/network_request.dart';
-import 'package:owari/admin/model/product.dart';
-import 'package:owari/admin/admn/tambahproduk.dart';
+import 'package:http/http.dart' as http;
+import 'package:owari/admin/dashboard/dashboard.dart';
+import 'package:owari/admin/home/create.dart';
+import 'package:owari/admin/home/edit.dart';
+import 'package:owari/admin/mainleo.dart';
 
 class Home extends StatefulWidget {
+  Home({Key? key}) : super(key: key);
+
   @override
-  _HomeState createState() => _HomeState();
+  State<Home> createState() => _HomeState();
 }
 
 class _HomeState extends State<Home> {
-  gridView(AsyncSnapshot<List<Product>> snapshot) {
-    return Padding(
-        padding: EdgeInsets.all(5),
-        child: GridView.count(
-          crossAxisCount: 2,
-          childAspectRatio: 1,
-          mainAxisSpacing: 4,
-          crossAxisSpacing: 4,
-          children: snapshot.data!.map((product) {
-            return GestureDetector(
-              child: GridTile(
-                child: ProductCell(product),
-              ),
-              onTap: () {
-                gotoDetailPage(context, product);
-              },
-            );
-          }).toList(),
-        ));
+  List _listdata = [];
+  bool _isLoading = true;
+
+  Future _getdata() async {
+    try {
+      final response = await http
+          .get(Uri.parse('https://owari-1.000webhostapp.com/owari/api.php'));
+      if (response.statusCode == 200) {
+        // print(response.body);
+        final data = jsonDecode(response.body);
+        setState(() {
+          _listdata = data;
+          _isLoading = false;
+        });
+      }
+    } catch (e) {
+      print(e);
+    }
   }
 
-  gotoDetailPage(BuildContext context, Product product) {
-    Navigator.push(
-      context, MaterialPageRoute(builder: (BuildContext context) => GridDetails(product: product))
-    );
+  Future _hapus(String nama) async {
+    try {
+      final response = await http.post(
+          Uri.parse('https://owari-1.000webhostapp.com/owari/del_produk.php'),
+          body: {
+            "nama": nama,
+          });
+      if (response.statusCode == 200) {
+        return true;
+      }
+      return false;
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  @override
+  void initState() {
+    _getdata();
+    print("Success");
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
-      floatingActionButton: FloatingActionButton(onPressed: () {
-        Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => TambahProduk()));
-      },
-      child: Icon(Icons.add),
-      backgroundColor: Colors.black,
-      foregroundColor: Colors.white,
+      appBar: AppBar(
+        title: Text("Home Page"),
+        backgroundColor: Colors.black,
+        foregroundColor: Colors.white,
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Flexible(
-              child: FutureBuilder<List<Product>>(
-                  future: NetworkRequest.fetchProduct(),
-                  builder: (context, snapshot) {
-                    if (snapshot.hasError) {
-                      return Center(child: Text('Error ${snapshot.error}'));
-                    } else if (snapshot.hasData) {
-                      return gridView(snapshot);
-                    }
-                    return CircularProgressIndicator();
-                  }))
-        ],
+      body: _isLoading
+          ? Center(
+              child: CircularProgressIndicator(),
+            )
+          : RefreshIndicator(
+            onRefresh: _getdata,
+            child :ListView.separated(
+              itemCount: _listdata.length,
+              itemBuilder: (context, index) {
+                return Card(
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: ((context) => EditData(ListData: {
+                                    "p_id": _listdata[index]['p_id'],
+                                    "cat_id": _listdata[index]['cat_id'],
+                                    "nama": _listdata[index]['nama'],
+                                    "deskripsi": _listdata[index]['deskripsi'],
+                                    "stock": _listdata[index]['stock'],
+                                    "harga": _listdata[index]['harga'],
+                                    "ukuran": _listdata[index]['ukuran'],
+                                    "foto": _listdata[index]['foto'],
+                                  }))));
+                    },
+                    child: ListTile(
+                      title: Text(_listdata[index]['nama']),
+                      subtitle: Text(_listdata[index]['deskripsi']),
+                      trailing: IconButton(
+                          onPressed: () {
+                            showDialog(
+                                context: context,
+                                builder: ((context) {
+                                  return AlertDialog(
+                                    content: Text("Apakah anda yakin ?"),
+                                    actions: [
+                                      ElevatedButton(
+                                          onPressed: () {
+                                            _hapus(_listdata[index]['nama'])
+                                                .then((value) {
+                                              if (value) {
+                                                scaffoldMessangerKey
+                                                    .currentState!
+                                                    .showSnackBar(SnackBar(
+                                                        content: Text(
+                                                            "Data Berhasil Dihapus")));
+                                              } else {
+                                                scaffoldMessangerKey
+                                                    .currentState!
+                                                    .showSnackBar(SnackBar(
+                                                        content: Text(
+                                                            "Data Gagal Dihapus")));
+                                              }
+                                            });
+                                            Navigator.of(context)
+                                                .pushAndRemoveUntil(
+                                                    MaterialPageRoute(
+                                                        builder: ((BuildContext
+                                                                context) =>
+                                                            Dashboard())),
+                                                    (route) => false);
+                                          },
+                                          child: Text("Ya")),
+                                      ElevatedButton(
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                          },
+                                          child: Text("Tidak"))
+                                    ],
+                                  );
+                                }));
+                          },
+                          icon: Icon(Icons.delete)),
+                    ),
+                  ),
+                );
+              },
+              separatorBuilder: (context, index) => Divider(),
+            ),
+          ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.black,
+        foregroundColor: Colors.white,
+        child: Icon(Icons.add),
+        onPressed: () {
+          Navigator.push(context,
+              MaterialPageRoute(builder: ((context) => TambahProduk())));
+        },
       ),
     );
   }

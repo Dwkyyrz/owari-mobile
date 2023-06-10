@@ -2,14 +2,18 @@ import '/admin/dashboard/dashboard.dart';
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(Admin());
+  runApp(MyApp());
 }
 
-class Admin extends StatelessWidget {
+final GlobalKey<ScaffoldMessengerState> scaffoldMessangerKey =
+    GlobalKey<ScaffoldMessengerState>();
+
+class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      scaffoldMessengerKey: scaffoldMessangerKey,
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
