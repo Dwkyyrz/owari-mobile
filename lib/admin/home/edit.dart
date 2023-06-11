@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:owari/admin/dashboard/dashboard.dart';
-import '/admin/mainleo.dart';
+import 'package:owari/admin/mainleo.dart';
 
 class EditData extends StatefulWidget {
   final Map ListData;
@@ -13,33 +13,35 @@ class EditData extends StatefulWidget {
 
 class _EditDataState extends State<EditData> {
   final formKey = GlobalKey<FormState>();
-  late TextEditingController _nama;
-  late TextEditingController _category;
-  late TextEditingController _stock;
-  late TextEditingController _harga;
-  late TextEditingController _deskripsi;
-  late TextEditingController _ukuran;
-  late TextEditingController _foto;
+  final TextEditingController id = TextEditingController();
+  final TextEditingController _nama = TextEditingController();
+  final TextEditingController _category = TextEditingController();
+  final TextEditingController _deskripsi = TextEditingController();
+  final TextEditingController _stock = TextEditingController();
+  final TextEditingController _harga = TextEditingController();
+  final TextEditingController _ukuran = TextEditingController();
+  final TextEditingController _foto = TextEditingController();
 
-  Future<bool> _update() async {
+  Future _update() async {
     try {
       final response = await http.post(
-        Uri.parse('https://owari-1.000webhostapp.com/api/update_produk.php'),
-        body: {
-          'nama': _nama.text,
-          'category': _category.text,
-          'deskripsi': _deskripsi.text,
-          'stock': _stock.text,
-          'harga': _harga.text,
-          'ukuran': _ukuran.text,
-          'foto': _foto.text
-        },
-      );
+          Uri.parse('https://owari-1.000webhostapp.com/api/update_produk.php'),
+          body: {
+            'p_id': id.text,
+            'nama': _nama.text,
+            'category': _category.text,
+            'deskripsi': _deskripsi.text,
+            'stock': _stock.text,
+            'harga': _harga.text,
+            'ukuran': _ukuran.text,
+            'foto': _foto.text
+          });
+      print(response.body);
       if (response.statusCode == 200) {
-        // Produk berhasil diupdate
+        // Produk berhasil ditambahkan
         return true;
       } else {
-        // Gagal update produk
+        // Gagal menambahkan produk
         return false;
       }
     } catch (e) {
@@ -52,13 +54,14 @@ class _EditDataState extends State<EditData> {
   @override
   void initState() {
     super.initState();
-    _nama = TextEditingController(text: widget.ListData['nama']);
-    _category = TextEditingController(text: widget.ListData['category']);
-    _stock = TextEditingController(text: widget.ListData['stock'].toString());
-    _harga = TextEditingController(text: widget.ListData['harga'].toString());
-    _deskripsi = TextEditingController(text: widget.ListData['deskripsi']);
-    _ukuran = TextEditingController(text: widget.ListData['ukuran']);
-    _foto = TextEditingController(text: widget.ListData['foto']);
+    id.text = widget.ListData['p_id'].toString();
+    _nama.text = widget.ListData['nama'];
+    _category.text = widget.ListData['category'];
+    _deskripsi.text = widget.ListData['deskripsi'];
+    _stock.text = widget.ListData['stock'].toString();
+    _harga.text = widget.ListData['harga'].toString();
+    _ukuran.text = widget.ListData['ukuran'];
+    _foto.text = widget.ListData['foto'];
   }
 
   @override
@@ -67,7 +70,7 @@ class _EditDataState extends State<EditData> {
       appBar: AppBar(
         backgroundColor: Colors.black,
         foregroundColor: Colors.white,
-        title: Text("Edit Produk"),
+        title: Text("Tambah Produk"),
       ),
       body: Form(
         key: formKey,
@@ -79,8 +82,7 @@ class _EditDataState extends State<EditData> {
                 controller: _nama,
                 decoration: InputDecoration(
                   focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.black),
-                  ),
+                      borderSide: BorderSide(color: Colors.black)),
                   hintText: "Nama Produk",
                   border: OutlineInputBorder(
                     borderSide: BorderSide(width: 3, color: Colors.black),
@@ -98,8 +100,7 @@ class _EditDataState extends State<EditData> {
                 controller: _category,
                 decoration: InputDecoration(
                   focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.black),
-                  ),
+                      borderSide: BorderSide(color: Colors.black)),
                   hintText: "Kategori Produk",
                   border: OutlineInputBorder(
                     borderSide: BorderSide(width: 3, color: Colors.black),
@@ -117,8 +118,7 @@ class _EditDataState extends State<EditData> {
                 controller: _deskripsi,
                 decoration: InputDecoration(
                   focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.black),
-                  ),
+                      borderSide: BorderSide(color: Colors.black)),
                   hintText: "Deskripsi Produk",
                   border: OutlineInputBorder(
                     borderSide: BorderSide(width: 3, color: Colors.black),
@@ -136,8 +136,7 @@ class _EditDataState extends State<EditData> {
                 controller: _stock,
                 decoration: InputDecoration(
                   focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.black),
-                  ),
+                      borderSide: BorderSide(color: Colors.black)),
                   hintText: "Stock Produk",
                   border: OutlineInputBorder(
                     borderSide: BorderSide(width: 3, color: Colors.black),
@@ -155,8 +154,7 @@ class _EditDataState extends State<EditData> {
                 controller: _harga,
                 decoration: InputDecoration(
                   focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.black),
-                  ),
+                      borderSide: BorderSide(color: Colors.black)),
                   hintText: "Harga Produk",
                   border: OutlineInputBorder(
                     borderSide: BorderSide(width: 3, color: Colors.black),
@@ -174,8 +172,7 @@ class _EditDataState extends State<EditData> {
                 controller: _ukuran,
                 decoration: InputDecoration(
                   focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.black),
-                  ),
+                      borderSide: BorderSide(color: Colors.black)),
                   hintText: "Ukuran Produk",
                   border: OutlineInputBorder(
                     borderSide: BorderSide(width: 3, color: Colors.black),
@@ -210,21 +207,20 @@ class _EditDataState extends State<EditData> {
               SizedBox(height: 3),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.black,
-                  foregroundColor: Colors.white,
-                ),
-                child: Text("Update"),
+                    backgroundColor: Colors.black,
+                    foregroundColor: Colors.white),
+                child: Text("Simpan"),
                 onPressed: () {
                   if (formKey.currentState!.validate()) {
                     try {
                       _update().then((value) {
                         if (value) {
-                          scaffoldMessangerKey.currentState!.showSnackBar(
+                          scaffoldMessengerKey.currentState!.showSnackBar(
                               SnackBar(
-                                  content: Text("Data Berhasil Diupdate")));
+                                  content: Text("Data Berhasil Disimpan")));
                         } else {
-                          scaffoldMessangerKey.currentState!.showSnackBar(
-                              SnackBar(content: Text("Data Gagal Diupdate")));
+                          scaffoldMessengerKey.currentState!.showSnackBar(
+                              SnackBar(content: Text("Data Gagal Disimpan")));
                         }
                       });
                       Navigator.of(context).pushAndRemoveUntil(
@@ -236,7 +232,7 @@ class _EditDataState extends State<EditData> {
                     }
                   }
                 },
-              ),
+              )
             ],
           ),
         ),

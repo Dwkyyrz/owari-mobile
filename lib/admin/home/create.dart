@@ -1,9 +1,10 @@
 import 'dart:convert';
-
+import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:owari/admin/dashboard/dashboard.dart';
 import 'package:owari/admin/mainleo.dart';
+import 'dart:io';
 
 class TambahProduk extends StatefulWidget {
   TambahProduk({super.key});
@@ -48,6 +49,7 @@ class _TambahProdukState extends State<TambahProduk> {
       return false;
     }
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -175,7 +177,8 @@ class _TambahProdukState extends State<TambahProduk> {
                 controller: _foto,
                 decoration: InputDecoration(
                   focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.black)),
+                    borderSide: BorderSide(color: Colors.black),
+                  ),
                   hintText: "Foto Produk",
                   border: OutlineInputBorder(
                     borderSide: BorderSide(width: 3, color: Colors.black),
@@ -199,11 +202,11 @@ class _TambahProdukState extends State<TambahProduk> {
                     try {
                       _simpan().then((value) {
                         if (value) {
-                          scaffoldMessangerKey.currentState!.showSnackBar(
+                          scaffoldMessengerKey.currentState!.showSnackBar(
                               SnackBar(
                                   content: Text("Data Berhasil Disimpan")));
                         } else {
-                          scaffoldMessangerKey.currentState!.showSnackBar(
+                          scaffoldMessengerKey.currentState!.showSnackBar(
                               SnackBar(content: Text("Data Gagal Disimpan")));
                         }
                       });

@@ -17,6 +17,7 @@ dependencies:
   fluttertoast: ^8.2.2
   shared_preferences: ^2.1.2
   simple_animations: ^5.0.1
+  image_picker: ^0.8.4+3
 
 dev_dependencies:
   flutter_test:

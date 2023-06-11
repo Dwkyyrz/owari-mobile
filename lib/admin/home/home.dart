@@ -107,13 +107,13 @@ class _HomeState extends State<Home> {
                                             _hapus(_listdata[index]['p_id'].toString())
                                                 .then((value) {
                                               if (value) {
-                                                scaffoldMessangerKey
+                                                scaffoldMessengerKey
                                                     .currentState!
                                                     .showSnackBar(SnackBar(
                                                         content: Text(
                                                             "Data Berhasil Dihapus")));
                                               } else {
-                                                scaffoldMessangerKey
+                                                scaffoldMessengerKey
                                                     .currentState!
                                                     .showSnackBar(SnackBar(
                                                         content: Text(
