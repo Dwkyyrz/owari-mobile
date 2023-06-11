@@ -5,6 +5,7 @@ import 'package:owari/admin/dashboard/dashboard.dart';
 import 'package:owari/admin/home/create.dart';
 import 'package:owari/admin/home/edit.dart';
 import 'package:owari/admin/mainleo.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Home extends StatefulWidget {
   Home({Key? key}) : super(key: key);
@@ -16,6 +17,17 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   List _listdata = [];
   bool _isLoading = true;
+
+  void goToLoginPage() {
+    Navigator.popAndPushNamed(context, '/login');
+  }
+
+  Future<void> logout() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.remove('user');
+    await prefs.remove('isLoggedIn');
+    goToLoginPage();
+  }
 
   Future _getdata() async {
     try {
@@ -61,6 +73,11 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+            onPressed: () {
+              logout();
+            },
+            icon: Icon(Icons.arrow_back)),
         title: Text("Home Page"),
         backgroundColor: Colors.black,
         foregroundColor: Colors.white,
