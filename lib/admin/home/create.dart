@@ -1,10 +1,7 @@
-import 'dart:convert';
-import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:owari/admin/dashboard/dashboard.dart';
 import 'package:owari/admin/mainleo.dart';
-import 'dart:io';
 
 class TambahProduk extends StatefulWidget {
   TambahProduk({super.key});
