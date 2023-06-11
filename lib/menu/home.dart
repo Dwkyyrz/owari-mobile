@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:owari/menu/detail_product.dart';
 import 'package:owari/menu/new_product.dart';
 import 'package:owari/menu/new_design.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -64,6 +65,17 @@ class _HomePageState extends State<HomePage> {
     } else if (index == 2) {
       Navigator.pushNamed(context, '/userProfile');
     }
+  }
+
+  void goToLoginPage() {
+    Navigator.popAndPushNamed(context, '/login');
+  }
+
+  Future<void> logout() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.remove('user');
+    await prefs.remove('isLoggedIn');
+    goToLoginPage();
   }
 
   @override
@@ -373,6 +385,13 @@ class _HomePageState extends State<HomePage> {
                   onTap: () {
                     // Add your logic here
                     _closeDrawer(); // Close the sidebar
+                  },
+                ),
+                ListTile(
+                  title: Text('LOGOUT'),
+                  onTap: () {
+                    // Add your logic here
+                    logout();
                   },
                 ),
                 // Add more ListTile widgets for additional menu items
