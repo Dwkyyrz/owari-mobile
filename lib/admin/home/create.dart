@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:owari/admin/dashboard/dashboard.dart';
 import 'package:owari/admin/mainleo.dart';
+import 'package:image_picker/image_picker.dart';
 
 class TambahProduk extends StatefulWidget {
-  TambahProduk({super.key});
+  TambahProduk({Key? key}) : super(key: key);
 
   @override
   State<TambahProduk> createState() => _TambahProdukState();
@@ -18,21 +19,42 @@ class _TambahProdukState extends State<TambahProduk> {
   final TextEditingController _stock = TextEditingController();
   final TextEditingController _harga = TextEditingController();
   final TextEditingController _ukuran = TextEditingController();
-  final TextEditingController _foto = TextEditingController();
+  XFile? _foto;
 
-  Future _simpan() async {
+  Future<void> _uploadFoto() async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+
+    if (pickedFile != null) {
+      setState(() {
+        _foto = XFile(pickedFile.path);
+      });
+    }
+  }
+
+  Future<bool> _simpan() async {
+    if (_foto == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Harap pilih foto produk")),
+      );
+      return false;
+    }
+
+    final url = Uri.parse('https://owari-1.000webhostapp.com/api/test.php');
+
     try {
-      final response = await http.post(
-          Uri.parse('https://owari-1.000webhostapp.com/api/add_produk.php'),
-          body: {
-            'nama': _nama.text,
-            'category': _category.text,
-            'deskripsi': _deskripsi.text,
-            'stock': _stock.text,
-            'harga': _harga.text,
-            'ukuran': _ukuran.text,
-            'foto': _foto.text
-          });
+      var request = http.MultipartRequest('POST', url);
+      request.fields['nama'] = _nama.text;
+      request.fields['category'] = _category.text;
+      request.fields['deskripsi'] = _deskripsi.text;
+      request.fields['stock'] = _stock.text;
+      request.fields['harga'] = _harga.text;
+      request.fields['ukuran'] = _ukuran.text;
+
+      request.files.add(await http.MultipartFile.fromPath('foto', _foto!.path));
+
+      final response = await request.send();
+
       if (response.statusCode == 200) {
         // Produk berhasil ditambahkan
         return true;
@@ -46,7 +68,6 @@ class _TambahProdukState extends State<TambahProduk> {
       return false;
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -170,29 +191,20 @@ class _TambahProdukState extends State<TambahProduk> {
                 },
               ),
               SizedBox(height: 3),
-              TextFormField(
-                controller: _foto,
-                decoration: InputDecoration(
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.black),
-                  ),
-                  hintText: "Foto Produk",
-                  border: OutlineInputBorder(
-                    borderSide: BorderSide(width: 3, color: Colors.black),
-                  ),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.black,
+                  foregroundColor: Colors.white,
                 ),
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return "Foto produk tidak boleh kosong";
-                  }
-                  return null;
-                },
+                child: Text("Pilih Foto"),
+                onPressed: _uploadFoto,
               ),
               SizedBox(height: 3),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.black,
-                    foregroundColor: Colors.white),
+                  backgroundColor: Colors.black,
+                  foregroundColor: Colors.white,
+                ),
                 child: Text("Simpan"),
                 onPressed: () {
                   if (formKey.currentState!.validate()) {

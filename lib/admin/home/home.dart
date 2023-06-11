@@ -19,8 +19,8 @@ class _HomeState extends State<Home> {
 
   Future _getdata() async {
     try {
-      final response = await http
-          .get(Uri.parse('https://owari-1.000webhostapp.com/api/read_produk.php'));
+      final response = await http.get(
+          Uri.parse('https://owari-1.000webhostapp.com/api/read_produk.php'));
       if (response.statusCode == 200) {
         // print(response.body);
         final data = jsonDecode(response.body);
@@ -70,82 +70,84 @@ class _HomeState extends State<Home> {
               child: CircularProgressIndicator(),
             )
           : RefreshIndicator(
-            onRefresh: _getdata,
-            child :ListView.separated(
-              itemCount: _listdata.length,
-              itemBuilder: (context, index) {
-                return Card(
-                  child: InkWell(
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: ((context) => EditData(ListData: {
-                                    "p_id": _listdata[index]['p_id'],
-                                    "category": _listdata[index]['category'],
-                                    "nama": _listdata[index]['nama'],
-                                    "deskripsi": _listdata[index]['deskripsi'],
-                                    "stock": _listdata[index]['stock'],
-                                    "harga": _listdata[index]['harga'],
-                                    "ukuran": _listdata[index]['ukuran'],
-                                    "foto": _listdata[index]['foto'],
-                                  }))));
-                    },
-                    child: ListTile(
-                      title: Text(_listdata[index]['nama']),
-                      subtitle: Text(_listdata[index]['deskripsi']),
-                      trailing: IconButton(
-                          onPressed: () {
-                            showDialog(
-                                context: context,
-                                builder: ((context) {
-                                  return AlertDialog(
-                                    content: Text("Apakah anda yakin ?"),
-                                    actions: [
-                                      ElevatedButton(
-                                          onPressed: () {
-                                            _hapus(_listdata[index]['p_id'].toString())
-                                                .then((value) {
-                                              if (value) {
-                                                scaffoldMessengerKey
-                                                    .currentState!
-                                                    .showSnackBar(SnackBar(
-                                                        content: Text(
-                                                            "Data Berhasil Dihapus")));
-                                              } else {
-                                                scaffoldMessengerKey
-                                                    .currentState!
-                                                    .showSnackBar(SnackBar(
-                                                        content: Text(
-                                                            "Data Gagal Dihapus")));
-                                              }
-                                            });
-                                            Navigator.of(context)
-                                                .pushAndRemoveUntil(
-                                                    MaterialPageRoute(
-                                                        builder: ((BuildContext
-                                                                context) =>
-                                                            Dashboard())),
-                                                    (route) => false);
-                                          },
-                                          child: Text("Ya")),
-                                      ElevatedButton(
-                                          onPressed: () {
-                                            Navigator.of(context).pop();
-                                          },
-                                          child: Text("Tidak"))
-                                    ],
-                                  );
-                                }));
-                          },
-                          icon: Icon(Icons.delete)),
+              onRefresh: _getdata,
+              child: ListView.separated(
+                itemCount: _listdata.length,
+                itemBuilder: (context, index) {
+                  return Card(
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: ((context) => EditData(ListData: {
+                                      "p_id": _listdata[index]['p_id'],
+                                      "category": _listdata[index]['category'],
+                                      "nama": _listdata[index]['nama'],
+                                      "deskripsi": _listdata[index]
+                                          ['deskripsi'],
+                                      "stock": _listdata[index]['stock'],
+                                      "harga": _listdata[index]['harga'],
+                                      "ukuran": _listdata[index]['ukuran'],
+                                      "foto": _listdata[index]['foto'],
+                                    }))));
+                      },
+                      child: ListTile(
+                        title: Text(_listdata[index]['nama']),
+                        subtitle: Text(_listdata[index]['deskripsi']),
+                        trailing: IconButton(
+                            onPressed: () {
+                              showDialog(
+                                  context: context,
+                                  builder: ((context) {
+                                    return AlertDialog(
+                                      content: Text("Apakah anda yakin ?"),
+                                      actions: [
+                                        ElevatedButton(
+                                            onPressed: () {
+                                              _hapus(_listdata[index]['p_id']
+                                                      .toString())
+                                                  .then((value) {
+                                                if (value) {
+                                                  scaffoldMessengerKey
+                                                      .currentState!
+                                                      .showSnackBar(SnackBar(
+                                                          content: Text(
+                                                              "Data Berhasil Dihapus")));
+                                                } else {
+                                                  scaffoldMessengerKey
+                                                      .currentState!
+                                                      .showSnackBar(SnackBar(
+                                                          content: Text(
+                                                              "Data Gagal Dihapus")));
+                                                }
+                                              });
+                                              Navigator.of(context)
+                                                  .pushAndRemoveUntil(
+                                                      MaterialPageRoute(
+                                                          builder: ((BuildContext
+                                                                  context) =>
+                                                              Dashboard())),
+                                                      (route) => false);
+                                            },
+                                            child: Text("Ya")),
+                                        ElevatedButton(
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                            },
+                                            child: Text("Tidak"))
+                                      ],
+                                    );
+                                  }));
+                            },
+                            icon: Icon(Icons.delete)),
+                      ),
                     ),
-                  ),
-                );
-              },
-              separatorBuilder: (context, index) => Divider(),
+                  );
+                },
+                separatorBuilder: (context, index) => Divider(),
+              ),
             ),
-          ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.black,
         foregroundColor: Colors.white,
