@@ -1,4 +1,7 @@
+// ignore_for_file: unused_import
+
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:owari/menu/detail_product.dart';
 import 'package:owari/menu/new_product.dart';
 import 'package:owari/menu/new_design.dart';
@@ -78,6 +81,10 @@ class _HomePageState extends State<HomePage> {
     goToLoginPage();
   }
 
+  void profile() {
+    Navigator.popAndPushNamed(context, '/userProfile');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -93,11 +100,7 @@ class _HomePageState extends State<HomePage> {
                   children: [
                     IconButton(
                         icon: Icon(Icons.menu), onPressed: _toggleDrawer),
-                    Padding(
-                      padding: const EdgeInsets.all(0),
-                      child: Image.asset('assets/logo.png',
-                          width: 100, height: 80),
-                    ),
+                    Image.asset('assets/logo.png', width: 100, height: 80),
                     IconButton(
                       icon: Icon(Icons.search),
                       onPressed: () {
@@ -354,51 +357,64 @@ class _HomePageState extends State<HomePage> {
             ],
           ),
         ),
-        drawer: GestureDetector(
+        drawer: SafeArea(
+            child: GestureDetector(
           onTap: _closeDrawer,
           child: Drawer(
             child: ListView(
               padding: EdgeInsets.zero,
               children: <Widget>[
                 DrawerHeader(
-                  decoration: BoxDecoration(
-                    color: Colors.blue,
-                  ),
-                  child: Text(
-                    'Sidebar',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 24,
+                    decoration: BoxDecoration(
+                      color: Color.fromARGB(255, 0, 0, 0).withOpacity(1),
                     ),
+                    child: Padding(
+                        padding: EdgeInsetsDirectional.all(0),
+                        child: Image.asset(
+                          'assets/logo.png',
+                          color: Colors.white,
+                        ))),
+                ListTile(
+                  title: Text('Profile'),
+                  leading: Icon(
+                    Icons.people,
+                    color: Colors.black,
                   ),
-                ),
-                ListTile(
-                  title: Text('Menu Item 1'),
                   onTap: () {
-                    // Add your logic here for when the sidebar menu item is clicked
-                    // For example, you can navigate to a different page
-                    _closeDrawer(); // Close the sidebar
+                    _closeDrawer();
+                    profile();
                   },
                 ),
                 ListTile(
-                  title: Text('Menu Item 2'),
-                  onTap: () {
-                    // Add your logic here
-                    _closeDrawer(); // Close the sidebar
-                  },
+                  title: Text('Cari Produk'),
+                  leading: Icon(
+                    Icons.search,
+                    color: Colors.black,
+                  ),
+                  onTap: () => logout(),
                 ),
                 ListTile(
-                  title: Text('LOGOUT'),
-                  onTap: () {
-                    // Add your logic here
-                    logout();
-                  },
+                  title: Text('Kategori'),
+                  leading: Icon(
+                    Icons.category,
+                    color: Colors.black,
+                  ),
+                  onTap: () => logout(),
                 ),
-                // Add more ListTile widgets for additional menu items
+                Expanded(
+                  child: ListTile(
+                    title: Text('LOGOUT'),
+                    leading: Icon(
+                      Icons.arrow_back,
+                      color: Colors.black,
+                    ),
+                    onTap: () => logout(),
+                  ),
+                )
               ],
             ),
           ),
-        ));
+        )));
   }
 }
 
