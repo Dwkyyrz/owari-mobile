@@ -32,7 +32,7 @@ class _HomeState extends State<Home> {
   Future _getdata() async {
     try {
       final response = await http.get(
-          Uri.parse('https://owarishop.000webhostapp.com/api/read_produk.php'));
+          Uri.parse('https://owarishop.000webhostapp.com/api/produk.php'));
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
         setState(() {
@@ -45,19 +45,26 @@ class _HomeState extends State<Home> {
     }
   }
 
-  Future _hapus(String id) async {
+  Future<bool> _hapus(String id) async {
     try {
       final response = await http.post(
-          Uri.parse('https://owari-1.000webhostapp.com/api/del_produk.php'),
-          body: {
-            'p_id': id,
-          });
+        Uri.parse('https://owarishop.000webhostapp.com/api/del_produk.php'),
+        body: {'p_id': id},
+      );
       if (response.statusCode == 200) {
-        return true;
+        final responseData = jsonDecode(response.body);
+        if (responseData['status'] == 'success') {
+          return true;
+        } else {
+          print('Delete error: ${responseData['message']}');
+          return false;
+        }
+      } else {
+        throw Exception('Delete error: ${response.reasonPhrase}');
       }
-      return false;
     } catch (e) {
-      print(e);
+      print('Delete error: $e');
+      return false;
     }
   }
 
@@ -81,13 +88,13 @@ class _HomeState extends State<Home> {
         backgroundColor: Colors.black,
         foregroundColor: Colors.white,
       ),
-      body: _isLoading
-          ? Center(
-              child: CircularProgressIndicator(),
-            )
-          : RefreshIndicator(
-              onRefresh: _getdata,
-              child: ListView.separated(
+      body: RefreshIndicator(
+        onRefresh: _getdata,
+        child: _isLoading
+            ? Center(
+                child: CircularProgressIndicator(),
+              )
+            : ListView.separated(
                 itemCount: _listdata.length,
                 itemBuilder: (context, index) {
                   return Card(
@@ -106,7 +113,8 @@ class _HomeState extends State<Home> {
                                       "harga": _listdata[index]['harga'],
                                       "ukuran": _listdata[index]['ukuran'],
                                       "foto": _listdata[index]['foto'],
-                                    }))));
+                                    },
+                                    foto: _listdata[index]['foto'],))));
                       },
                       child: ListTile(
                         leading: Container(
@@ -116,7 +124,7 @@ class _HomeState extends State<Home> {
                               shape: BoxShape.rectangle,
                               image: DecorationImage(
                                   image: NetworkImage(
-                                      'https://owarishop.000webhostapp.com${_listdata[index]['foto']}'),
+                                      'https://owarishop.000webhostapp.com/img/${_listdata[index]['foto']}'),
                                   fit: BoxFit.cover)),
                         ),
                         title: Text(_listdata[index]['nama']),
@@ -173,7 +181,7 @@ class _HomeState extends State<Home> {
                 },
                 separatorBuilder: (context, index) => Divider(),
               ),
-            ),
+      ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.black,
         foregroundColor: Colors.white,

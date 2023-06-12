@@ -1,24 +1,20 @@
-import 'dart:convert';
 import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:image_picker/image_picker.dart';
 import 'package:owari/admin/dashboard/dashboard.dart';
 import 'package:owari/admin/mainleo.dart';
+import 'package:image_picker/image_picker.dart';
 
-class EditData extends StatefulWidget {
-  final Map ListData;
-  final String foto;
-
-  const EditData({required this.ListData, required this.foto});
+class UpdateProduk extends StatefulWidget {
+  UpdateProduk({Key? key}) : super(key: key);
 
   @override
-  State<EditData> createState() => _EditDataState();
+  State<UpdateProduk> createState() => _UpdateProdukState();
 }
 
-class _EditDataState extends State<EditData> {
+class _UpdateProdukState extends State<UpdateProduk> {
   final formKey = GlobalKey<FormState>();
-  final TextEditingController id = TextEditingController();
   final TextEditingController _nama = TextEditingController();
   final TextEditingController _category = TextEditingController();
   final TextEditingController _deskripsi = TextEditingController();
@@ -31,13 +27,16 @@ class _EditDataState extends State<EditData> {
   @override
   void initState() {
     super.initState();
-    id.text = widget.ListData['p_id'].toString();
-    _nama.text = widget.ListData['nama'];
-    _category.text = widget.ListData['category'];
-    _deskripsi.text = widget.ListData['deskripsi'];
-    _stock.text = widget.ListData['stock'].toString();
-    _harga.text = widget.ListData['harga'].toString();
-    _ukuran.text = widget.ListData['ukuran'];
+
+    // Set initial values for the controllers
+    _nama.text = "Nama Produk"; // Set the initial value for nama
+    _category.text = "Kategori Produk"; // Set the initial value for category
+    _deskripsi.text = "Deskripsi Produk"; // Set the initial value for deskripsi
+    _stock.text = "Stock Produk"; // Set the initial value for stock
+    _harga.text = "Harga Produk"; // Set the initial value for harga
+    _ukuran.text = "Ukuran Produk"; // Set the initial value for ukuran
+    // Load existing foto if available
+    //  // Uncomment this line and replace "path_to_existing_foto" with the actual path
   }
 
   Future<void> _uploadFoto() async {
@@ -52,13 +51,19 @@ class _EditDataState extends State<EditData> {
     }
   }
 
-Future<bool> _update() async {
-    try {
-      final url =
-          Uri.parse('https://owarishop.000webhostapp.com/update_produk.php');
+  Future<bool> _simpan() async {
+    // Check if foto is changed or not
+    if (_isFotoChanged && _foto == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Harap pilih foto produk")),
+      );
+      return false;
+    }
 
+    final url = Uri.parse('https://owarishop.000webhostapp.com/test.php');
+
+    try {
       var request = http.MultipartRequest('POST', url);
-      request.fields['p_id'] = id.text;
       request.fields['nama'] = _nama.text;
       request.fields['category'] = _category.text;
       request.fields['deskripsi'] = _deskripsi.text;
@@ -67,7 +72,7 @@ Future<bool> _update() async {
       request.fields['ukuran'] = _ukuran.text;
 
       // Add foto if it's changed
-      if (_isFotoChanged && _foto != null) {
+      if (_isFotoChanged) {
         request.files
             .add(await http.MultipartFile.fromPath('foto', _foto!.path));
       }
@@ -76,54 +81,15 @@ Future<bool> _update() async {
 
       if (response.statusCode == 200) {
         // Produk berhasil diupdate
-
-        // Menangani respons dari server
-        String responseString = await response.stream.bytesToString();
-        print(
-            responseString); // Cetak respons dari server untuk pemecahan masalah
-
-        // Lakukan penanganan respons sesuai dengan kebutuhan aplikasi Anda
-        // Contoh: Jika respons berisi kata "sukses", maka kembalikan true
-        if (responseString.contains("sukses")) {
-          return true;
-        } else {
-          return false;
-        }
+        return true;
       } else {
         // Gagal mengupdate produk
-        print('Update failed: ${response.statusCode}');
         return false;
       }
     } catch (e) {
       // Terjadi error dalam koneksi atau permintaan HTTP
-      print('Error: $e');
+      print(e);
       return false;
-    }
-  }
-
-
-  Widget _buildProductImage() {
-    try {
-      return _foto != null
-          ? Image.file(File(_foto!.path))
-          : Image.network(
-              "https://owarishop.000webhostapp.com/img/${widget.foto}",
-              loadingBuilder: (BuildContext context, Widget child,
-                  ImageChunkEvent? loadingProgress) {
-                if (loadingProgress == null) {
-                  return child;
-                }
-                return CircularProgressIndicator();
-              },
-              errorBuilder: (BuildContext context, Object exception,
-                  StackTrace? stackTrace) {
-                print('Error loading image: $exception');
-                return Container(); // Tampilkan placeholder atau widget lain sebagai pengganti gambar yang gagal dimuat.
-              },
-            );
-    } catch (e) {
-      print('Error loading image: $e');
-      return Container(); // Tampilkan placeholder atau widget lain sebagai pengganti gambar yang gagal dimuat.
     }
   }
 
@@ -133,21 +99,20 @@ Future<bool> _update() async {
       appBar: AppBar(
         backgroundColor: Colors.black,
         foregroundColor: Colors.white,
-        title: Text("Edit Produk"),
+        title: Text("Update Produk"),
       ),
-      body: SingleChildScrollView(
-        child: Form(
-          key: formKey,
-          child: Container(
-            padding: EdgeInsets.all(10),
+      body: Form(
+        key: formKey,
+        child: Container(
+          padding: EdgeInsets.all(10),
+          child: SingleChildScrollView(
             child: Column(
               children: [
                 TextFormField(
                   controller: _nama,
                   decoration: InputDecoration(
                     focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.black),
-                    ),
+                        borderSide: BorderSide(color: Colors.black)),
                     hintText: "Nama Produk",
                     border: OutlineInputBorder(
                       borderSide: BorderSide(width: 3, color: Colors.black),
@@ -165,8 +130,7 @@ Future<bool> _update() async {
                   controller: _category,
                   decoration: InputDecoration(
                     focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.black),
-                    ),
+                        borderSide: BorderSide(color: Colors.black)),
                     hintText: "Kategori Produk",
                     border: OutlineInputBorder(
                       borderSide: BorderSide(width: 3, color: Colors.black),
@@ -184,8 +148,7 @@ Future<bool> _update() async {
                   controller: _deskripsi,
                   decoration: InputDecoration(
                     focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.black),
-                    ),
+                        borderSide: BorderSide(color: Colors.black)),
                     hintText: "Deskripsi Produk",
                     border: OutlineInputBorder(
                       borderSide: BorderSide(width: 3, color: Colors.black),
@@ -203,8 +166,7 @@ Future<bool> _update() async {
                   controller: _stock,
                   decoration: InputDecoration(
                     focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.black),
-                    ),
+                        borderSide: BorderSide(color: Colors.black)),
                     hintText: "Stock Produk",
                     border: OutlineInputBorder(
                       borderSide: BorderSide(width: 3, color: Colors.black),
@@ -222,8 +184,7 @@ Future<bool> _update() async {
                   controller: _harga,
                   decoration: InputDecoration(
                     focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.black),
-                    ),
+                        borderSide: BorderSide(color: Colors.black)),
                     hintText: "Harga Produk",
                     border: OutlineInputBorder(
                       borderSide: BorderSide(width: 3, color: Colors.black),
@@ -241,8 +202,7 @@ Future<bool> _update() async {
                   controller: _ukuran,
                   decoration: InputDecoration(
                     focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.black),
-                    ),
+                        borderSide: BorderSide(color: Colors.black)),
                     hintText: "Ukuran Produk",
                     border: OutlineInputBorder(
                       borderSide: BorderSide(width: 3, color: Colors.black),
@@ -255,86 +215,46 @@ Future<bool> _update() async {
                     return null;
                   },
                 ),
-                SizedBox(height: 10),
-                _buildProductImage(),
-                SizedBox(height: 10),
+                SizedBox(height: 3),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.black,
-                    foregroundColor: Colors.white
+                    foregroundColor: Colors.white,
                   ),
-                  onPressed: _uploadFoto,
                   child: Text("Pilih Foto"),
+                  onPressed: _uploadFoto,
                 ),
-                SizedBox(height: 10),
+                SizedBox(height: 3),
+                _foto != null ? Image.file(File(_foto!.path)) : Placeholder(),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.black,
-                    foregroundColor: Colors.white
+                    foregroundColor: Colors.white,
                   ),
-                  onPressed: () async {
+                  child: Text("Simpan"),
+                  onPressed: () {
                     if (formKey.currentState!.validate()) {
-                      bool success = await _update();
-                      if (success) {
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return AlertDialog(
-                              title: Text('Berhasil'),
-                              content: Text('Produk berhasil diupdate.'),
-                              actions: <Widget>[
-                                ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: Colors.black,
-                                    foregroundColor: Colors.white
-                                  ),
-                                  child: Text('OK'),
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                    Navigator.of(context).pushAndRemoveUntil(
-                                      MaterialPageRoute(
-                                          builder: (_) => Dashboard()),
-                                      (Route<dynamic> route) => false,
-                                    );
-                                  },
-                                ),
-                              ],
-                            );
-                          },
-                        );
-                      } else {
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return AlertDialog(
-                              title: Text('Berhasil'),
-                              content: Text(
-                                  'Refresh Produk'),
-                              actions: <Widget>[
-                                ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: Colors.black,
-                                    foregroundColor: Colors.white
-                                  ),
-                                  child: Text('OK'),
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                    Navigator.of(context).pushAndRemoveUntil(
-                                      MaterialPageRoute(
-                                          builder: (_) => Dashboard()),
-                                      (Route<dynamic> route) => false,
-                                    );
-                                  },
-                                ),
-                              ],
-                            );
-                          },
-                        );
+                      try {
+                        _simpan().then((value) {
+                          if (value) {
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                content: Text("Data Berhasil Diupdate")));
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(content: Text("Data Gagal Diupdate")));
+                          }
+                        });
+                        Navigator.of(context).pushAndRemoveUntil(
+                            MaterialPageRoute(
+                                builder: ((BuildContext context) =>
+                                    Dashboard())),
+                            (route) => false);
+                      } catch (e) {
+                        print('Error $e');
                       }
                     }
                   },
-                  child: Text("Update"),
-                ),
+                )
               ],
             ),
           ),
