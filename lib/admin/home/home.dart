@@ -32,9 +32,8 @@ class _HomeState extends State<Home> {
   Future _getdata() async {
     try {
       final response = await http.get(
-          Uri.parse('https://owari-1.000webhostapp.com/api/read_produk.php'));
+          Uri.parse('https://owarishop.000webhostapp.com/api/read_produk.php'));
       if (response.statusCode == 200) {
-        // print(response.body);
         final data = jsonDecode(response.body);
         setState(() {
           _listdata = data;
@@ -110,6 +109,16 @@ class _HomeState extends State<Home> {
                                     }))));
                       },
                       child: ListTile(
+                        leading: Container(
+                          width: 50,
+                          height: 50,
+                          decoration: BoxDecoration(
+                              shape: BoxShape.rectangle,
+                              image: DecorationImage(
+                                  image: NetworkImage(
+                                      'https://owarishop.000webhostapp.com${_listdata[index]['foto']}'),
+                                  fit: BoxFit.cover)),
+                        ),
                         title: Text(_listdata[index]['nama']),
                         subtitle: Text(_listdata[index]['deskripsi']),
                         trailing: IconButton(
