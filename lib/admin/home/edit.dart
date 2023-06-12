@@ -1,10 +1,8 @@
-import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:owari/admin/dashboard/dashboard.dart';
-import 'package:owari/admin/mainleo.dart';
 
 class EditData extends StatefulWidget {
   final Map ListData;
