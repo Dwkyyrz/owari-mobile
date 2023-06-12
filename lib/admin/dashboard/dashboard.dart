@@ -1,4 +1,3 @@
-import '/admin/admn/admin.dart';
 import '/admin/home/home.dart';
 import 'package:flutter/material.dart';
 
@@ -37,13 +36,6 @@ class _DashboardState extends State<Dashboard> {
           inactiveColor: _inactiveColor,
           textAlign: TextAlign.center,
         ),
-        BottomNavyBarItem(
-          icon: Icon(Icons.apartment_outlined),
-          title: Text('Settings'),
-          activeColor: Colors.white,
-          inactiveColor: _inactiveColor,
-          textAlign: TextAlign.center,
-        ),
       ],
     );
   }
@@ -51,7 +43,6 @@ class _DashboardState extends State<Dashboard> {
   Widget getBody() {
     List<Widget> pages = [
       Home(),
-      Admin(),
     ];
     return IndexedStack(
       index: _currentIndex,
