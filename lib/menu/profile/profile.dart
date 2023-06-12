@@ -172,18 +172,18 @@ class _UserProfileState extends State<UserProfile> {
                     text: "Informasi Akun",
                     onTap: () => Navigator.pushNamed(context, '/updateProfile'),
                   ),
-                  const SizedBox(height: 10),
-                  customListTile(
-                    icon: Icons.history,
-                    text: "Riwayat Pembelian",
-                    onTap: () => Navigator.pushNamed(context, '/riwayat'),
-                  ),
-                  const SizedBox(height: 10),
-                  customListTile(
-                    icon: Icons.favorite_border_outlined,
-                    text: "Wishlist",
-                    onTap: () => Navigator.pushNamed(context, '/wishlist'),
-                  ),
+                  // const SizedBox(height: 10),
+                  // customListTile(
+                  //   icon: Icons.history,
+                  //   text: "Riwayat Pembelian",
+                  //   onTap: () => Navigator.pushNamed(context, '/riwayat'),
+                  // ),
+                  // const SizedBox(height: 10),
+                  // customListTile(
+                  //   icon: Icons.favorite_border_outlined,
+                  //   text: "Wishlist",
+                  //   onTap: () => Navigator.pushNamed(context, '/wishlist'),
+                  // ),
                   const SizedBox(height: 10),
                   customListTile(
                     icon: Icons.privacy_tip_outlined,
