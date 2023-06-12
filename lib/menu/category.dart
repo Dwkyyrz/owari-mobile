@@ -2,7 +2,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:owari/menu/category.dart';
 import 'package:owari/menu/detail_product.dart';
 import 'package:owari/menu/new_product.dart';
 import 'package:owari/menu/new_design.dart';
@@ -11,13 +10,12 @@ import 'package:http/http.dart' as http;
 import 'package:owari/menu/profile/tentang.dart';
 import 'dart:convert';
 
-
-class HomePage extends StatefulWidget {
+class Kategori extends StatefulWidget {
   @override
-  _HomePageState createState() => _HomePageState();
+  _KategoriState createState() => _KategoriState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _KategoriState extends State<Kategori> {
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   bool _isDrawerOpen = false;
 
@@ -79,7 +77,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  int _selectedIndex = 0;
+  int _selectedIndex = 1;
 
   void _onNavItemTapped(int index) {
     setState(() {
@@ -106,14 +104,6 @@ class _HomePageState extends State<HomePage> {
   }
 
   void profile() {
-    Navigator.popAndPushNamed(context, '/userProfile');
-  }
-
-  void category() {
-    Navigator.popAndPushNamed(context, '/kategori');
-  }
-
-  void cariProduk() {
     Navigator.popAndPushNamed(context, '/userProfile');
   }
 
@@ -149,82 +139,126 @@ class _HomePageState extends State<HomePage> {
               //   child:
               // ),
 
-              Expanded(
-                child: RefreshIndicator(
-                  onRefresh: fetchData,
-                  child: GridView.builder(
-                    itemCount: produkList.length,
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 1,
-                      childAspectRatio: MediaQuery.of(context).size.width /
-                          (MediaQuery.of(context).size.height * 0.5),
-                    ),
-                    itemBuilder: (context, index) {
-                      var produk = produkList[index];
-                      var fotoURL =
-                          "https://owarishop.000webhostapp.com/img/${produk['foto']}";
-                      var title = produk['nama'];
-                      var description = produk['deskripsi'];
-                      var price = produk['harga'];
-                      // var p_id = produk['p_id'];
-
-                      return GestureDetector(
-                          // onTap: () {
-                          //   navigator.push(MaterialPageRoute(
-                          //       builder: (context) => DetailProductPage(
-                          //           id = p_id,
-                          //       )));
-                          // },
-                          child: Card(
-                            margin: EdgeInsets.all(8),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Image.network(
-                                  fotoURL,
-                                  fit: BoxFit.fill,
-                                  width: double.infinity,
-                                  height: 300,
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.all(8),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        title,
-                                        style: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                      SizedBox(height: 4),
-                                      Text(
-                                        description,
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          color: Colors.grey,
-                                        ),
-                                      ),
-                                      SizedBox(height: 8),
-                                      Text(
-                                        price,
-                                        style: TextStyle(
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  GestureDetector(
+                    onTap: navigateToNewDesignPage,
+                    child: Stack(
+                      children: [
+                        Container(
+                          width: 140,
+                          height: 140,
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                              image: AssetImage('assets/1.png'),
+                              fit: BoxFit.cover,
                             ),
-                          ));
-                    },
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                        Container(
+                          width: 140,
+                          height: 140,
+                          alignment: Alignment.center,
+                          child: Container(
+                            padding: EdgeInsets.all(10),
+                            alignment: Alignment.bottomRight,
+                            child: Text(
+                              'OWARI',
+                              style: TextStyle(
+                                  fontSize: 38,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white.withOpacity(0.8)),
+                              textAlign: TextAlign.start,
+                            ),
+                          ),
+                        ),
+                        Container(
+                          width: 140,
+                          height: 140,
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                            color: Colors.black.withOpacity(0.8),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          // Pengaturan opasitas di sini
+                          child: Container(
+                            padding: EdgeInsets.all(20),
+                            alignment: Alignment.topLeft,
+                            child: Text(
+                              'New Design',
+                              style: TextStyle(
+                                  fontSize: 24,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white),
+                              textAlign: TextAlign.start,
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
                   ),
-                ),
-              ) // ),
+                  GestureDetector(
+                      onTap: navigateToNewProductPage,
+                      child: Stack(
+                        children: [
+                          Container(
+                            width: 140,
+                            height: 140,
+                            decoration: BoxDecoration(
+                              image: DecorationImage(
+                                image: AssetImage('assets/6.png'),
+                                fit: BoxFit.cover,
+                              ),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                          ),
+                          Container(
+                            width: 140,
+                            height: 140,
+                            alignment: Alignment.center,
+                            child: Container(
+                              padding: EdgeInsets.all(10),
+                              alignment: Alignment.bottomRight,
+                              child: Text(
+                                'OWARI',
+                                style: TextStyle(
+                                    fontSize: 38,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white),
+                                textAlign: TextAlign.start,
+                              ),
+                            ),
+                          ),
+                          Container(
+                            width: 140,
+                            height: 140,
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                              color: const Color.fromARGB(255, 105, 0, 0)
+                                  .withOpacity(0.8),
+                              borderRadius: BorderRadius.circular(10),
+                            ), // Pengaturan opasitas di sini
+                            child: Container(
+                              padding: EdgeInsets.all(20),
+                              alignment: Alignment.topLeft,
+                              child: Text(
+                                'New Product',
+                                style: TextStyle(
+                                    fontSize: 24,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white),
+                                textAlign: TextAlign.start,
+                              ),
+                            ),
+                          )
+                        ],
+                      ))
+                ],
+              ),
+
+              // ),
             ],
           ),
         ),
@@ -281,7 +315,7 @@ class _HomePageState extends State<HomePage> {
                     Icons.search,
                     color: Colors.black,
                   ),
-                  onTap: () => cariProduk(),
+                  onTap: () => logout(),
                 ),
                 ListTile(
                   title: Text('Kategori'),
@@ -289,7 +323,7 @@ class _HomePageState extends State<HomePage> {
                     Icons.category,
                     color: Colors.black,
                   ),
-                  onTap: () => category(),
+                  onTap: () => logout(),
                 ),
                 Expanded(
                   child: ListTile(

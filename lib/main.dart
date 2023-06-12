@@ -18,6 +18,7 @@ import 'package:owari/menu/profile/riwayat.dart';
 import 'package:owari/menu/profile/wishlist.dart';
 import 'package:owari/menu/profile/privacy&policy.dart';
 import 'package:owari/menu/profile/tentang.dart';
+import 'package:owari/menu/category.dart';
 
 void main() {
   runApp(const MyApp());
@@ -35,6 +36,7 @@ class MyApp extends StatelessWidget {
         '/login': (context) => LoginPage(key: UniqueKey()),
         '/register': (context) => RegisterPage(key: UniqueKey()),
         '/home': (context) => HomePage(),
+        '/kategori': (context) => Kategori(),
         '/newProduct': (context) => newProduct(),
         '/newDesign': (context) => newDesign(),
 

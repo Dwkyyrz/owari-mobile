@@ -122,7 +122,7 @@ class _UserProfileState extends State<UserProfile> {
             Container(
               height: 250,
               decoration: BoxDecoration(
-                  color: Colors.yellow.withOpacity(0.4),
+                  color: Colors.black,
                   borderRadius: BorderRadius.only(
                       bottomLeft: Radius.circular(30),
                       bottomRight: Radius.circular(30))),
@@ -142,6 +142,7 @@ class _UserProfileState extends State<UserProfile> {
                       style: const TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
+                        color: Colors.white,
                       ),
                     ),
                   ),
@@ -151,6 +152,7 @@ class _UserProfileState extends State<UserProfile> {
                       '${user!.email}',
                       style: const TextStyle(
                         fontSize: 15,
+                        color: Colors.white,
                       ),
                     ),
                   ),
@@ -201,7 +203,35 @@ class _UserProfileState extends State<UserProfile> {
                       child: customListTile(
                         icon: Icons.logout,
                         text: "Logout",
-                        onTap: () => logout(),
+                        onTap: () {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: Text('Logout Akun'),
+                                content:
+                                    Text('Apakah Anda yakin ingin keluar?'),
+                                actions: <Widget>[
+                                  TextButton(
+                                    child: Text('Batal'),
+                                    onPressed: () {
+                                      Navigator.of(context)
+                                          .pop(); // Tutup dialog
+                                    },
+                                  ),
+                                  TextButton(
+                                    child: Text('Logout'),
+                                    onPressed: () {
+                                      Navigator.of(context)
+                                          .pop(); // Tutup dialog
+                                      logout(); // Panggil fungsi logout()
+                                    },
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                        },
                       ),
                     ),
                   ),
@@ -215,7 +245,7 @@ class _UserProfileState extends State<UserProfile> {
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
         onTap: _onNavItemTapped,
-        selectedItemColor: Colors.yellow.withOpacity(1),
+        selectedItemColor: Colors.redAccent,
         items: [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
@@ -248,7 +278,7 @@ Widget customListTile({
         height: 50,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(100),
-          color: Colors.yellow.withOpacity(0.1),
+          color: const Color.fromARGB(255, 173, 173, 173).withOpacity(0.1),
         ),
         child: Icon(icon, size: 24, color: Colors.black),
       ),
@@ -264,7 +294,7 @@ Widget customListTile({
         height: 40,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(100),
-          color: Colors.black.withOpacity(0.1),
+          color: const Color.fromARGB(255, 173, 173, 173).withOpacity(0.1),
         ),
         child: const Icon(
           Icons.keyboard_arrow_right,

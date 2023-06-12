@@ -20,6 +20,14 @@ class _RegisterPageState extends State<RegisterPage> {
   final TextEditingController phoneController = TextEditingController();
   final TextEditingController addressController = TextEditingController();
 
+  bool isPasswordVisible = true;
+
+  void togglePasswordVisibility() {
+    setState(() {
+      isPasswordVisible = !isPasswordVisible;
+    });
+  }
+
   Future<void> register() async {
     String username = usernameController.text;
     String email = emailController.text;
@@ -27,7 +35,7 @@ class _RegisterPageState extends State<RegisterPage> {
     String telp = phoneController.text;
     String alamat = addressController.text;
 
-    var url = Uri.parse('https://owari-1.000webhostapp.com/api/regis.php');
+    var url = Uri.parse('https://owarishop.000webhostapp.com/api/regis.php');
     var response = await http.post(url, body: {
       'username': username,
       'email': email,
@@ -106,7 +114,7 @@ class _RegisterPageState extends State<RegisterPage> {
     return Scaffold(
       body: Container(
         width: double.infinity,
-        decoration: BoxDecoration(color: Colors.yellow.withOpacity(0.5)),
+        decoration: BoxDecoration(color: Colors.black),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
@@ -125,6 +133,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         'assets/logo.png',
                         width: 250,
                         height: 170,
+                        color: Colors.white,
                       ),
                     ),
                   ),
@@ -165,8 +174,8 @@ class _RegisterPageState extends State<RegisterPage> {
                                   borderRadius: BorderRadius.circular(10),
                                   boxShadow: [
                                     BoxShadow(
-                                        color: Color.fromARGB(90, 255, 185, 46),
-                                        blurRadius: 8,
+                                        color: Colors.black12,
+                                        blurRadius: 3,
                                         offset: Offset(0, 0))
                                   ]),
                               child: Column(
@@ -212,12 +221,18 @@ class _RegisterPageState extends State<RegisterPage> {
                                                     255, 237, 237, 237)))),
                                     child: TextField(
                                       controller: passwordController,
-                                      decoration: const InputDecoration(
-                                          labelText: 'Password',
-                                          prefixIcon: Icon(Icons.lock),
-                                          suffixIcon: Icon(Icons.visibility),
-                                          border: InputBorder.none),
-                                      obscureText: true,
+                                      decoration: InputDecoration(
+                                        labelText: 'Password',
+                                        prefixIcon: Icon(Icons.lock),
+                                        suffixIcon: IconButton(
+                                          onPressed: togglePasswordVisibility,
+                                          icon: isPasswordVisible
+                                              ? Icon(Icons.visibility_off)
+                                              : Icon(Icons.visibility),
+                                        ),
+                                        border: InputBorder.none,
+                                      ),
+                                      obscureText: isPasswordVisible,
                                     ),
                                   ),
                                   Container(
@@ -264,7 +279,7 @@ class _RegisterPageState extends State<RegisterPage> {
                               register();
                             },
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.yellow.withOpacity(1),
+                              backgroundColor: Colors.black12,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(50),
                               ),

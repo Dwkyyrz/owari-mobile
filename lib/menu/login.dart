@@ -55,11 +55,19 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
+  bool isPasswordVisible = true;
+
+  void togglePasswordVisibility() {
+    setState(() {
+      isPasswordVisible = !isPasswordVisible;
+    });
+  }
+
   Future<void> login() async {
     String email = emailController.text;
     String password = passwordController.text;
 
-    const url = 'https://owari-1.000webhostapp.com/api/login.php';
+    const url = 'https://owarishop.000webhostapp.com/api/login.php';
 
     try {
       final response = await http.post(Uri.parse(url), body: {
@@ -142,7 +150,7 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       body: Container(
         width: double.infinity,
-        decoration: BoxDecoration(color: Colors.yellow.withOpacity(0.5)),
+        decoration: BoxDecoration(color: Colors.black),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
@@ -161,6 +169,7 @@ class _LoginPageState extends State<LoginPage> {
                         'assets/logo.png',
                         width: 250,
                         height: 170,
+                        color: Colors.white,
                       ),
                     ),
                   ),
@@ -201,7 +210,7 @@ class _LoginPageState extends State<LoginPage> {
                                   borderRadius: BorderRadius.circular(10),
                                   boxShadow: [
                                     BoxShadow(
-                                        color: Color.fromARGB(90, 255, 185, 46),
+                                        color: Colors.black12,
                                         blurRadius: 8,
                                         offset: Offset(0, 0))
                                   ]),
@@ -225,22 +234,27 @@ class _LoginPageState extends State<LoginPage> {
                                     ),
                                   ),
                                   Container(
-                                    padding: EdgeInsets.all(10),
-                                    decoration: BoxDecoration(
-                                        border: Border(
-                                            bottom: BorderSide(
-                                                color: const Color.fromARGB(
-                                                    255, 237, 237, 237)))),
-                                    child: TextField(
-                                      controller: passwordController,
-                                      decoration: const InputDecoration(
+                                      padding: EdgeInsets.all(10),
+                                      decoration: BoxDecoration(
+                                          border: Border(
+                                              bottom: BorderSide(
+                                                  color: const Color.fromARGB(
+                                                      255, 237, 237, 237)))),
+                                      child: TextField(
+                                        controller: passwordController,
+                                        decoration: InputDecoration(
                                           labelText: 'Password',
                                           prefixIcon: Icon(Icons.lock),
-                                          suffixIcon: Icon(Icons.visibility),
-                                          border: InputBorder.none),
-                                      obscureText: true,
-                                    ),
-                                  ),
+                                          suffixIcon: IconButton(
+                                            onPressed: togglePasswordVisibility,
+                                            icon: isPasswordVisible
+                                                ? Icon(Icons.visibility_off)
+                                                : Icon(Icons.visibility),
+                                          ),
+                                          border: InputBorder.none,
+                                        ),
+                                        obscureText: isPasswordVisible,
+                                      )),
                                 ],
                               ),
                             )),
@@ -254,7 +268,7 @@ class _LoginPageState extends State<LoginPage> {
                               login();
                             },
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.yellow.withOpacity(1),
+                              backgroundColor: Colors.black12,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(50),
                               ),

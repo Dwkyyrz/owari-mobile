@@ -1,129 +1,101 @@
-// ignore_for_file: unused_import
-
-import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
-
-class User {
-  final String id;
-  final String email;
-  final String password;
-  final String name;
-  final String phoneNumber;
-  final String address;
-
-  User({
-    required this.id,
-    required this.email,
-    required this.password,
-    required this.name,
-    required this.phoneNumber,
-    required this.address,
-  });
-
-  factory User.fromJson(Map<String, dynamic> json) {
-    return User(
-      id: json['id'],
-      name: json['nama'],
-      email: json['email'],
-      password: json['password'],
-      phoneNumber: json['telp'],
-      address: json['alamat'],
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'email': email,
-      'password': password,
-      'nama': name,
-      'telp': phoneNumber,
-      'alamat': address,
-    };
-  }
-}
 
 class AboutOwari extends StatefulWidget {
-  const AboutOwari({Key? key}) : super(key: key);
-
   @override
   _AboutOwariState createState() => _AboutOwariState();
 }
 
 class _AboutOwariState extends State<AboutOwari> {
-  User? user;
+  List<dynamic> produkList = [];
 
   @override
   void initState() {
     super.initState();
-    checkUserLoggedIn();
+    fetchData();
   }
 
-  Future<void> checkUserLoggedIn() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final String? userString = prefs.getString('user');
-    if (userString != null) {
-      final userMap = jsonDecode(userString);
+  Future<void> fetchData() async {
+    final response = await http
+        .get(Uri.parse("https://owarishop.000webhostapp.com/api/produk.php"));
+
+    if (response.statusCode == 200) {
       setState(() {
-        user = User.fromJson(userMap);
+        produkList = jsonDecode(response.body);
       });
-    } else {
-      goToLoginPage();
     }
-  }
-
-  void goToLoginPage() {
-    Navigator.popAndPushNamed(context, '/login');
-  }
-
-  void goToProfilePage() {
-    Navigator.popAndPushNamed(context, '/userProfile');
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Tentang Owari'),
-        backgroundColor: Colors.yellow.withOpacity(0.4),
+        title: Text('About Owari'),
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              const SizedBox(height: 40),
-              SizedBox(
-                  width: 120,
-                  height: 120,
-                  child: CircleAvatar(
-                    backgroundImage: AssetImage('assets/banner2.png'),
-                  )),
-              const SizedBox(height: 10),
-              Center(
-                child: Text(
-                  '${user!.name}',
-                  style: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-              const SizedBox(height: 5),
-              Center(
-                child: Text(
-                  '${user!.email}',
-                  style: const TextStyle(
-                    fontSize: 15,
-                  ),
-                ),
-              ),
-            ],
-          ),
+      body: GridView.builder(
+        itemCount: produkList.length,
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 1,
+          childAspectRatio: MediaQuery.of(context).size.width /
+              (MediaQuery.of(context).size.height * 0.5),
         ),
+        itemBuilder: (context, index) {
+          var produk = produkList[index];
+          var fotoURL =
+              "https://owarishop.000webhostapp.com/img/${produk['foto']}";
+          var title = produk['nama'];
+          var description = produk['deskripsi'];
+          var price = produk['harga'];
+
+          return InkWell(
+            onTap: () => null,
+            child: Card(
+            margin: EdgeInsets.all(8),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Image.network(
+                  fotoURL,
+                  fit: BoxFit.fill,
+                  width: double.infinity,
+                  height: 300,
+                ),
+                Padding(
+                  padding: EdgeInsets.all(8),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        title,
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      SizedBox(height: 4),
+                      Text(
+                        description,
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: Colors.grey,
+                        ),
+                      ),
+                      SizedBox(height: 8),
+                      Text(
+                        price,
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ));
+        },
       ),
     );
   }

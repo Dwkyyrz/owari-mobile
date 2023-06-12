@@ -103,7 +103,7 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
       );
 
       final url =
-          'https://owari-1.000webhostapp.com/api/update_akun.php'; // Ganti dengan URL API Anda
+          'https://owarishop.000webhostapp.com/api/update_akun.php'; // Ganti dengan URL API Anda
       var request = http.MultipartRequest('POST', Uri.parse(url));
       request.fields['u_id'] = updatedUser.id;
       request.fields['username'] = updatedUser.name;
@@ -111,7 +111,6 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
       request.fields['password'] = updatedUser.password;
       request.fields['telp'] = updatedUser.phoneNumber;
       request.fields['alamat'] = updatedUser.address;
-      request.fields['tipe'] = 'user';
 
       var response = await request.send();
       if (response.statusCode == 200) {
@@ -166,7 +165,7 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('User Profile'),
-        backgroundColor: Colors.yellow.withOpacity(0.4),
+        backgroundColor: Colors.black,
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -176,42 +175,56 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
             children: [
               TextField(
                 controller: _nameController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Nama',
+                  prefixIcon: Icon(Icons.people),
+                  border: InputBorder.none,
                 ),
+                keyboardType: TextInputType.text,
               ),
               TextField(
                 controller: _emailController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Email',
+                  prefixIcon: Icon(Icons.email),
+                  border: InputBorder.none,
                 ),
                 keyboardType: TextInputType.emailAddress,
               ),
               TextField(
                 controller: _passwordController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Password',
+                  prefixIcon: Icon(Icons.lock),
+                  border: InputBorder.none,
                 ),
+                keyboardType: TextInputType.text,
               ),
               TextField(
                 controller: _phoneController,
-                decoration: InputDecoration(
-                  labelText: 'Phone Number',
+                decoration: const InputDecoration(
+                  labelText: 'Nomor HP',
+                  prefixIcon: Icon(Icons.phone),
+                  border: InputBorder.none,
                 ),
                 keyboardType: TextInputType.phone,
               ),
               TextField(
                 controller: _addressController,
-                decoration: InputDecoration(
-                  labelText: 'Address',
+                decoration: const InputDecoration(
+                  labelText: 'Alamat',
+                  prefixIcon: Icon(Icons.home),
+                  border: InputBorder.none,
                 ),
+                keyboardType: TextInputType.text,
               ),
               SizedBox(height: 16.0),
               ElevatedButton(
                 child: Text('Update Profile'),
                 onPressed: updateProfile,
                 style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.yellow.withOpacity(0.4)),
+                  backgroundColor: Colors.black12,
+                ),
               ),
             ],
           ),
