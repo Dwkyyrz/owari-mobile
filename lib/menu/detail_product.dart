@@ -158,19 +158,32 @@ class DetailProductPage extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              IconButton(
-                icon: Icon(Icons.chat),
-                color: Colors.grey,
-                onPressed: () {
-                  openwhatsapp(context);
-                },
+              Row(
+                children: [
+                  IconButton(
+                    icon: Icon(Icons.chat),
+                    color: Colors.grey,
+                    onPressed: () {
+                      openwhatsapp(context);
+                    },
+                  ),
+                  Text("Hubungi Admin"),
+                ],
               ),
-              IconButton(
-                icon: Icon(Icons.shopping_cart),
-                color: Colors.green,
-                onPressed: () {
-                  openwhatsapp(context);
-                },
+              Row(
+                children: [
+                  IconButton(
+                    icon: Icon(Icons.shopping_cart),
+                    color: Colors.green,
+                    onPressed: () {
+                      openwhatsapp(context);
+                    },
+                  ),
+                  Text("Pesan",
+                      style: TextStyle(
+                        color: Colors.green,
+                      )),
+                ],
               ),
             ],
           ),
@@ -180,7 +193,7 @@ class DetailProductPage extends StatelessWidget {
   }
 
   void openwhatsapp(BuildContext context) async {
-    String whatsapp = "6285921740977";
+    String whatsapp = "6289616603042";
     // String pesanText = "Hello";
 
     String message = 'Halo, saya ingin bertanya produk ini:';
@@ -214,10 +227,11 @@ class DetailProductPage extends StatelessWidget {
   }
 
   void order(BuildContext context) async {
-    String whatsapp = "6285921740977";
+    String whatsapp = "6289616603042";
     // String pesanText = "Hello";
 
-    String message = 'Selamat datang Di Owari \nHalo Admin Owari :)\n saya ingin memesan produk ini:';
+    String message =
+        'Selamat datang Di Owari \nHalo Admin Owari :)\n saya ingin memesan produk ini:';
     message += '\n Nama: ${product['nama']}';
     message += '\nHarga: ${product['harga']}';
     message += '\nKategori: ${product['category']}';
@@ -247,57 +261,3 @@ class DetailProductPage extends StatelessWidget {
     }
   }
 }
-
-//   void openwhatsapp(BuildContext context) async {
-//     String whatsapp = "6285921740977";
-
-//     String message = 'Halo, saya ingin memesan produk ini:';
-//     message += '\nNama: ${product['nama']}';
-//     message += '\nHarga: ${product['harga']}';
-//     message += '\nKategori: ${product['category']}';
-//     message += '\nUkuran: ${product['ukuran']}';
-
-//     // URL gambar produk dari database
-//     String imageUrl =
-//         "https://owarishop.000webhostapp.com/img/${product['foto']}";
-
-//     // Mendapatkan direktori tempat penyimpanan file di perangkat
-//     Directory appDocDir = await getApplicationDocumentsDirectory();
-//     String appDocPath = appDocDir.path;
-
-//     // Mendapatkan nama file gambar dari URL
-//     String fileName = imageUrl.split('/').last;
-
-//     // Mendownload gambar produk dan menyimpannya di perangkat
-//     String imagePath = "$appDocPath/$fileName";
-//     await downloadImage(imageUrl, imagePath);
-
-//     if (Platform.isIOS) {
-//       // untuk iOS
-//       await FlutterShare.share(
-//         title: 'Share via WhatsApp',
-//         text: message,
-//         imagePath: imagePath,
-//         linkUrl:
-//             'whatsapp://send?phone=$whatsapp&text=${Uri.encodeComponent(message)}',
-//       );
-//     } else {
-//       // untuk Android
-//       await FlutterShare.share(
-//         title: 'Share via WhatsApp',
-//         text: message,
-//         imagePath: imagePath,
-//         chooserTitle: 'Share via',
-//         packageName: 'com.whatsapp',
-//         linkUrl:
-//             'whatsapp://send?phone=$whatsapp&text=${Uri.encodeComponent(message)}',
-//       );
-//     }
-//   }
-
-//   Future<void> downloadImage(String imageUrl, String savePath) async {
-//     var response = await http.get(Uri.parse(imageUrl));
-//     File file = File(savePath);
-//     await file.writeAsBytes(response.bodyBytes);
-//   }
-// }

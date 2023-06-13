@@ -106,15 +106,15 @@ class _HomePageState extends State<HomePage> {
   }
 
   void profile() {
-    Navigator.popAndPushNamed(context, '/userProfile');
+    Navigator.pushNamed(context, '/userProfile');
   }
 
   void category() {
-    Navigator.popAndPushNamed(context, '/kategori');
+    Navigator.pushNamed(context, '/kategori');
   }
 
   void cariProduk() {
-    Navigator.popAndPushNamed(context, '/userProfile');
+    Navigator.pushNamed(context, '/userProfile');
   }
 
   @override

@@ -24,6 +24,7 @@ dependencies:
   url_launcher: ^6.1.11
   intl: ^0.18.1
   share_plus: ^6.3.4
+  flutter_share: ^2.0.0
   # flutter_share: 2.0.0
 
 dev_dependencies:
