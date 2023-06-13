@@ -30,18 +30,33 @@ class _AboutOwariState extends State<AboutOwari> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar:AppBar(
-
-      ) ,
-      body: SafeArea(
-        
-        child: Container(
-          // alignment: Alignment.centerLeft,
-          child: Text(
-            '"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."',
-            style: TextStyle(
-              fontSize: 16,
-            ),
+      appBar: AppBar(
+        title: Text("About Owari"),
+        backgroundColor: Colors.black,
+        foregroundColor: Colors.white,
+      ),
+      body: Container(
+        padding: EdgeInsets.all(16.0), // Tambahkan padding di sini
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              CircleAvatar(
+                radius: 80,
+                backgroundImage: AssetImage('assets/logo.png'),
+                backgroundColor: Colors.white,
+              ),
+              SizedBox(height: 20),
+              Text(
+                "Owari merupakan salah satu bisnis yang berbidang pada penjualan barang seperti baju, tumbler, dan totbag. "
+                "Namun, Owari saat ini mengalami kendala dalam melakukan pemasaran dan branding pada brand mereka sendiri. "
+                "Terbatasnya penyebaran informasi tentang produk mereka ke masyarakat luas menjadi tantangan utama yang dihadapi.",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 16,
+                ),
+              ),
+            ],
           ),
         ),
       ),
