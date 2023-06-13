@@ -5,7 +5,6 @@ import 'dart:async';
 import 'package:owari/menu/login.dart';
 import 'package:owari/menu/register.dart';
 import 'package:owari/menu/home.dart';
-import 'admin/admn/admin.dart';
 import 'screen/Category.dart';
 import 'package:owari/menu/new_product.dart';
 import 'package:owari/menu/new_design.dart';
@@ -50,7 +49,6 @@ class MyApp extends StatelessWidget {
 
         //ADMIN ROUTES
         '/adminlogin': (context) => AdminLogin(key: UniqueKey()),
-        '/adm': (context) => Admin(),
         '/dashboard': (context) => Dashboard(),
       },
     );

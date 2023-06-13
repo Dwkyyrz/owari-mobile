@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:owari/admin/dashboard/dashboard.dart';
@@ -40,7 +42,7 @@ class _TambahProdukState extends State<TambahProduk> {
       return false;
     }
 
-    final url = Uri.parse('https://owari-1.000webhostapp.com/api/test.php');
+    final url = Uri.parse('https://owarishop.000webhostapp.com/test.php');
 
     try {
       var request = http.MultipartRequest('POST', url);
@@ -77,7 +79,8 @@ class _TambahProdukState extends State<TambahProduk> {
         foregroundColor: Colors.white,
         title: Text("Tambah Produk"),
       ),
-      body: Form(
+      body: SingleChildScrollView(
+        child: Form(
         key: formKey,
         child: Container(
           padding: EdgeInsets.all(10),
@@ -200,6 +203,7 @@ class _TambahProdukState extends State<TambahProduk> {
                 onPressed: _uploadFoto,
               ),
               SizedBox(height: 3),
+              _foto != null ? Image.file(File(_foto!.path)) : Placeholder(),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.black,
@@ -232,6 +236,7 @@ class _TambahProdukState extends State<TambahProduk> {
             ],
           ),
         ),
+      ),
       ),
     );
   }
