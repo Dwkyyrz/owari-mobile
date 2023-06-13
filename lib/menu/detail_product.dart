@@ -176,7 +176,7 @@ class DetailProductPage extends StatelessWidget {
                     icon: Icon(Icons.shopping_cart),
                     color: Colors.green,
                     onPressed: () {
-                      openwhatsapp(context);
+                      order(context);
                     },
                   ),
                   Text("Pesan",
