@@ -1,0 +1,28 @@
+void _openWhatsAppOrder(BuildContext context) async {
+    String message = 'Halo, saya ingin memesan produk ini:';
+    message += '\nNama: ${product['nama']}';
+    message += '\nHarga: ${product['harga']}';
+    message += '\nKategori: ${product['category']}';
+    message += '\nUkuran: ${product['ukuran']}';
+
+    Uri url = Uri.parse(
+        "https://wa.me/6285921740977?text=${Uri.encodeComponent(message)}");
+    if (await canLaunchUrl(url)) {
+      await launchUrl(url);
+    } else {
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text('Error'),
+          content: Text('Gagal membuka WhatsApp.'),
+          actions: [
+            TextButton(
+              child: Text('Tutup'),
+              onPressed: () => Navigator.pop(context),
+            ),
+          ],
+        ),
+      );
+    }
+  }
+}

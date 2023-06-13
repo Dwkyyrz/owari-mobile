@@ -30,72 +30,20 @@ class _AboutOwariState extends State<AboutOwari> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('About Owari'),
-      ),
-      body: GridView.builder(
-        itemCount: produkList.length,
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 1,
-          childAspectRatio: MediaQuery.of(context).size.width /
-              (MediaQuery.of(context).size.height * 0.5),
-        ),
-        itemBuilder: (context, index) {
-          var produk = produkList[index];
-          var fotoURL =
-              "https://owarishop.000webhostapp.com/img/${produk['foto']}";
-          var title = produk['nama'];
-          var description = produk['deskripsi'];
-          var price = produk['harga'];
+      appBar:AppBar(
 
-          return InkWell(
-            onTap: () => null,
-            child: Card(
-            margin: EdgeInsets.all(8),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Image.network(
-                  fotoURL,
-                  fit: BoxFit.fill,
-                  width: double.infinity,
-                  height: 300,
-                ),
-                Padding(
-                  padding: EdgeInsets.all(8),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        title,
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      SizedBox(height: 4),
-                      Text(
-                        description,
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.grey,
-                        ),
-                      ),
-                      SizedBox(height: 8),
-                      Text(
-                        price,
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
+      ) ,
+      body: SafeArea(
+        
+        child: Container(
+          // alignment: Alignment.centerLeft,
+          child: Text(
+            '"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."',
+            style: TextStyle(
+              fontSize: 16,
             ),
-          ));
-        },
+          ),
+        ),
       ),
     );
   }

@@ -1,4 +1,4 @@
-// ignore_for_file: unused_import
+// ignore_for_file: unused_import, unused_local_variable
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -10,7 +10,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'package:owari/menu/profile/tentang.dart';
 import 'dart:convert';
-
+import 'package:intl/intl.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -163,18 +163,26 @@ class _HomePageState extends State<HomePage> {
                       var produk = produkList[index];
                       var fotoURL =
                           "https://owarishop.000webhostapp.com/img/${produk['foto']}";
-                      var title = produk['nama'];
-                      var description = produk['deskripsi'];
-                      var price = produk['harga'];
-                      // var p_id = produk['p_id'];
-
+                      var p_id = produk['p_id'];
+                      var category = produk['category'];
+                      var nama = produk['nama'];
+                      var deskripsi = produk['deskripsi'];
+                      var stock = produk['stock'];
+                      var harga = int.parse(produk['harga']);
+                      var ukuran = produk['ukuran'];
+                      var foto = produk['foto'];
+                      var created_at = produk['created_at'];
+                      var update_at = produk['update_at'];
                       return GestureDetector(
-                          // onTap: () {
-                          //   navigator.push(MaterialPageRoute(
-                          //       builder: (context) => DetailProductPage(
-                          //           id = p_id,
-                          //       )));
-                          // },
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    DetailProductPage(product: produk),
+                              ),
+                            );
+                          },
                           child: Card(
                             margin: EdgeInsets.all(8),
                             child: Column(
@@ -182,7 +190,7 @@ class _HomePageState extends State<HomePage> {
                               children: [
                                 Image.network(
                                   fotoURL,
-                                  fit: BoxFit.fill,
+                                  fit: BoxFit.cover,
                                   width: double.infinity,
                                   height: 300,
                                 ),
@@ -193,7 +201,7 @@ class _HomePageState extends State<HomePage> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        title,
+                                        nama,
                                         style: TextStyle(
                                           fontSize: 16,
                                           fontWeight: FontWeight.bold,
@@ -201,7 +209,7 @@ class _HomePageState extends State<HomePage> {
                                       ),
                                       SizedBox(height: 4),
                                       Text(
-                                        description,
+                                        deskripsi,
                                         style: TextStyle(
                                           fontSize: 14,
                                           color: Colors.grey,
@@ -209,7 +217,11 @@ class _HomePageState extends State<HomePage> {
                                       ),
                                       SizedBox(height: 8),
                                       Text(
-                                        price,
+                                        NumberFormat.currency(
+                                                locale: 'id',
+                                                symbol: 'Rp ',
+                                                decimalDigits: 0)
+                                            .format(harga),
                                         style: TextStyle(
                                           fontSize: 18,
                                           fontWeight: FontWeight.bold,
