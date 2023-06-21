@@ -13,7 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     // Lakukan validasi data jika diperlukan
 
-    $sql = "INSERT INTO user (username, email, password, telp, alamat, tipe) VALUES ('$username', '$email', '$password', '$telp', '$alamat', 'user')";
+    $sql = "INSERT INTO user (username, email, password, telp, alamat) VALUES ('$username', '$email', '$password', '$telp', '$alamat')";
     // $sql = "INSERT INTO users (username, email, password, telp, alamat) VALUES ('tes', 'tse@s', 'ef', '2', 'wfaw')";
 
     if ($conn->query($sql) === TRUE) {

@@ -7,7 +7,7 @@
         $password = $_POST['password'];
 
         // Retrieve user data from the database
-        $query = "SELECT * FROM user WHERE email = '$email' AND password = '$password' AND tipe = 'user'";
+        $query = "SELECT * FROM user WHERE email = '$email' AND password = '$password'";
         $result = mysqli_query($conn, $query);
 
         if (mysqli_num_rows($result) > 0) {
