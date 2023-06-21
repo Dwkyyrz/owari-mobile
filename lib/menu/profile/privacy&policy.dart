@@ -86,39 +86,29 @@ class _PrivacyAndPolicyState extends State<PrivacyAndPolicy> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Kebijakan dan Privasi'),
-        backgroundColor: Colors.yellow.withOpacity(0.4),
+        title: Text("About Owari"),
+        backgroundColor: Colors.black,
+        foregroundColor: Colors.white,
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.all(16.0),
+      body: Container(
+        padding: EdgeInsets.all(16.0), // Tambahkan padding di sini
+        child: Center(
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const SizedBox(height: 40),
-              SizedBox(
-                  width: 120,
-                  height: 120,
-                  child: CircleAvatar(
-                    backgroundImage: AssetImage('assets/banner2.png'),
-                  )),
-              const SizedBox(height: 10),
-              Center(
-                child: Text(
-                  '${user!.name}',
-                  style: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
+              CircleAvatar(
+                radius: 80,
+                backgroundImage: AssetImage('assets/logo.png'),
+                backgroundColor: Colors.white,
               ),
-              const SizedBox(height: 5),
-              Center(
-                child: Text(
-                  '${user!.email}',
-                  style: const TextStyle(
-                    fontSize: 15,
-                  ),
+              SizedBox(height: 20),
+              Text(
+                "Owari merupakan salah satu bisnis yang berbidang pada penjualan barang seperti baju, tumbler, dan totbag. "
+                "Namun, Owari saat ini mengalami kendala dalam melakukan pemasaran dan branding pada brand mereka sendiri. "
+                "Terbatasnya penyebaran informasi tentang produk mereka ke masyarakat luas menjadi tantangan utama yang dihadapi.",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 16,
                 ),
               ),
             ],

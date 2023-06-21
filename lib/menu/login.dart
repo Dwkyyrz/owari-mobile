@@ -67,7 +67,7 @@ class _LoginPageState extends State<LoginPage> {
     String email = emailController.text;
     String password = passwordController.text;
 
-    const url = 'https://owarishop.000webhostapp.com/api/login.php';
+    const url = 'http://10.0.2.2/owari/api/login.php';
 
     try {
       final response = await http.post(Uri.parse(url), body: {

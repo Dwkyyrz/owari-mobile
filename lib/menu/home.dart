@@ -30,8 +30,8 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> fetchData() async {
-    final response = await http
-        .get(Uri.parse("https://owarishop.000webhostapp.com/api/produk.php"));
+    final response =
+        await http.get(Uri.parse("http://10.0.2.2/owari/api/produk.php"));
 
     if (response.statusCode == 200) {
       setState(() {
@@ -162,7 +162,7 @@ class _HomePageState extends State<HomePage> {
                     itemBuilder: (context, index) {
                       var produk = produkList[index];
                       var fotoURL =
-                          "https://owarishop.000webhostapp.com/img/${produk['foto']}";
+                          "http://localhost/owari/img/${produk['foto']}";
                       var p_id = produk['p_id'];
                       var category = produk['category'];
                       var nama = produk['nama'];

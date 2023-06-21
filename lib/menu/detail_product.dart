@@ -50,7 +50,7 @@ class DetailProductPage extends StatelessWidget {
                         borderRadius: BorderRadius.circular(
                             10), // Atur nilai radius sesuai keinginan Anda
                         child: Image.network(
-                          "https://owarishop.000webhostapp.com/img/${product['foto']}",
+                          "https://localhost/owari/img/${product['foto']}",
                           width: double.infinity,
                           fit: BoxFit.cover,
                           height: 300,
