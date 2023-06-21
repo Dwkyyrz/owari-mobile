@@ -1,5 +1,7 @@
 // ignore_for_file: unused_import, deprecated_member_use
 
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -7,11 +9,40 @@ import 'dart:io';
 import 'package:path_provider/path_provider.dart';
 // import 'package:flutter_share/flutter_share.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:owari/menu/profile/profile.dart';
 
-class DetailProductPage extends StatelessWidget {
+class DetailProductPage extends StatefulWidget {
   final dynamic product;
 
-  DetailProductPage({required this.product});
+  DetailProductPage({
+    required this.product,
+  });
+
+  @override
+  _DetailProductPageState createState() => _DetailProductPageState();
+}
+
+class _DetailProductPageState extends State<DetailProductPage> {
+  User? user;
+
+  @override
+  void initState() {
+    super.initState();
+    getUserData();
+  }
+
+  void getUserData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? userData = prefs.getString(
+        'user'); // 'user_data' adalah key untuk data user di shared preferences
+
+    if (userData != null) {
+      Map<String, dynamic> userDataMap = jsonDecode(userData);
+      user = User.fromJson(userDataMap);
+      setState(() {});
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,9 +79,10 @@ class DetailProductPage extends StatelessWidget {
                       width: MediaQuery.of(context).size.width * 0.9,
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(
-                            10), // Atur nilai radius sesuai keinginan Anda
+                          10,
+                        ), // Atur nilai radius sesuai keinginan Anda
                         child: Image.network(
-                          "https://localhost/owari/img/${product['foto']}",
+                          "https://localhost/owari/img/${widget.product['foto']}",
                           width: double.infinity,
                           fit: BoxFit.cover,
                           height: 300,
@@ -68,7 +100,7 @@ class DetailProductPage extends StatelessWidget {
                                 locale: 'id',
                                 symbol: 'Rp ',
                                 decimalDigits: 0,
-                              ).format(int.parse(product['harga'])),
+                              ).format(int.parse(widget.product['harga'])),
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 16,
@@ -79,7 +111,7 @@ class DetailProductPage extends StatelessWidget {
                           Container(
                             alignment: Alignment.centerLeft,
                             child: Text(
-                              '${product['nama'].toUpperCase()}',
+                              '${widget.product['nama'].toUpperCase()}',
                               style: TextStyle(
                                 fontSize: 16,
                               ),
@@ -98,15 +130,17 @@ class DetailProductPage extends StatelessWidget {
                                 child: Text(
                                   "Detail Produk",
                                   style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold),
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
                               ),
                               SizedBox(height: 10),
                               Container(
-                                  alignment: Alignment.centerLeft,
-                                  child:
-                                      Text('Kategori: ${product['category']}')),
+                                alignment: Alignment.centerLeft,
+                                child: Text(
+                                    'Kategori: ${widget.product['category']}'),
+                              ),
                               Divider(
                                 color: Colors.grey,
                                 thickness: 0.5,
@@ -114,8 +148,10 @@ class DetailProductPage extends StatelessWidget {
                               ),
                               SizedBox(height: 4),
                               Container(
-                                  alignment: Alignment.centerLeft,
-                                  child: Text('Stock: ${product['stock']}')),
+                                alignment: Alignment.centerLeft,
+                                child:
+                                    Text('Stock: ${widget.product['stock']}'),
+                              ),
                               Divider(
                                 color: Colors.grey,
                                 thickness: 0.5,
@@ -123,8 +159,10 @@ class DetailProductPage extends StatelessWidget {
                               ),
                               SizedBox(height: 4),
                               Container(
-                                  alignment: Alignment.centerLeft,
-                                  child: Text('Ukuran: ${product['ukuran']}')),
+                                alignment: Alignment.centerLeft,
+                                child:
+                                    Text('Ukuran: ${widget.product['ukuran']}'),
+                              ),
                               Divider(
                                 color: Colors.grey,
                                 thickness: 0.5,
@@ -132,9 +170,31 @@ class DetailProductPage extends StatelessWidget {
                               ),
                               SizedBox(height: 4),
                               Container(
-                                  alignment: Alignment.centerLeft,
-                                  child: Text(
-                                      'Deskripsi: ${product['deskripsi']}')),
+                                alignment: Alignment.centerLeft,
+                                child: Text(
+                                    'Deskripsi: ${widget.product['deskripsi']}'),
+                              ),
+                              Divider(
+                                color: Colors.grey,
+                                thickness: 0.5,
+                                height: 10.0,
+                              ),
+                              SizedBox(height: 4),
+                              Container(
+                                alignment: Alignment.centerLeft,
+                                child: Text('ID USER: ${user?.id ?? ""}'),
+                              ),
+                              Divider(
+                                color: Colors.grey,
+                                thickness: 0.5,
+                                height: 10.0,
+                              ),
+                              SizedBox(height: 4),
+                              Container(
+                                alignment: Alignment.centerLeft,
+                                child: Text(
+                                    'Produk ID: ${widget.product['p_id']}'),
+                              ),
                               Divider(
                                 color: Colors.grey,
                                 thickness: 0.5,
@@ -179,10 +239,12 @@ class DetailProductPage extends StatelessWidget {
                       order(context);
                     },
                   ),
-                  Text("Pesan",
-                      style: TextStyle(
-                        color: Colors.green,
-                      )),
+                  Text(
+                    "Pesan",
+                    style: TextStyle(
+                      color: Colors.green,
+                    ),
+                  ),
                 ],
               ),
             ],
@@ -197,10 +259,10 @@ class DetailProductPage extends StatelessWidget {
     // String pesanText = "Hello";
 
     String message = 'Halo, saya ingin bertanya produk ini:';
-    message += '\nNama: ${product['nama']}';
-    message += '\nHarga: ${product['harga']}';
-    message += '\nKategori: ${product['category']}';
-    message += '\nUkuran: ${product['ukuran']}';
+    message += '\nNama: ${widget.product['nama']}';
+    message += '\nHarga: ${widget.product['harga']}';
+    message += '\nKategori: ${widget.product['category']}';
+    message += '\nUkuran: ${widget.product['ukuran']}';
 
     String whatsappURlAndroid = "https://wa.me/ $whatsapp?text=$message";
 
@@ -212,7 +274,8 @@ class DetailProductPage extends StatelessWidget {
         await launch(whatappURLIos, forceSafariVC: false);
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text("whatsapp no installed")));
+          const SnackBar(content: Text("whatsapp no installed")),
+        );
       }
     } else {
       // android , web
@@ -221,7 +284,8 @@ class DetailProductPage extends StatelessWidget {
       } else {
         var context2 = context;
         ScaffoldMessenger.of(context2).showSnackBar(
-            const SnackBar(content: Text("whatsapp tidak terinstall")));
+          const SnackBar(content: Text("whatsapp tidak terinstall")),
+        );
       }
     }
   }
@@ -232,10 +296,10 @@ class DetailProductPage extends StatelessWidget {
 
     String message =
         'Selamat datang Di Owari \nHalo Admin Owari :)\n saya ingin memesan produk ini:';
-    message += '\n Nama: ${product['nama']}';
-    message += '\nHarga: ${product['harga']}';
-    message += '\nKategori: ${product['category']}';
-    message += '\nUkuran: ${product['ukuran']}';
+    message += '\n Nama: ${widget.product['nama']}';
+    message += '\nHarga: ${widget.product['harga']}';
+    message += '\nKategori: ${widget.product['category']}';
+    message += '\nUkuran: ${widget.product['ukuran']}';
 
     String whatsappURlAndroid = "https://wa.me/ $whatsapp?text=$message";
 

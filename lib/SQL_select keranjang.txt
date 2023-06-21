@@ -1,0 +1,11 @@
+SELECT user.username, user.alamat, produk.*
+FROM user
+JOIN keranjang ON user.u_id = keranjang.u_id
+JOIN produk ON keranjang.p_id = produk.p_id;
+
+
+SELECT user.username, user.alamat, produk.*, keranjang.status
+FROM user
+JOIN keranjang ON user.u_id = keranjang.u_id
+JOIN produk ON keranjang.p_id = produk.p_id
+WHERE status="keranjang";

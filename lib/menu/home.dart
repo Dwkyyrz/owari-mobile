@@ -17,11 +17,52 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
+class User {
+  final String id;
+  final String email;
+  final String password;
+  final String name;
+  final String phoneNumber;
+  final String address;
+
+  User({
+    required this.id,
+    required this.email,
+    required this.password,
+    required this.name,
+    required this.phoneNumber,
+    required this.address,
+  });
+
+  factory User.fromJson(Map<String, dynamic> json) {
+    return User(
+      id: json['id'],
+      name: json['nama'],
+      email: json['email'],
+      password: json['password'],
+      phoneNumber: json['telp'],
+      address: json['alamat'],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'email': email,
+      'password': password,
+      'nama': name,
+      'telp': phoneNumber,
+      'alamat': address,
+    };
+  }
+}
+
 class _HomePageState extends State<HomePage> {
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   bool _isDrawerOpen = false;
 
   List<dynamic> produkList = [];
+  User? user;
 
   @override
   void initState() {
@@ -178,8 +219,10 @@ class _HomePageState extends State<HomePage> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) =>
-                                    DetailProductPage(product: produk),
+                                builder: (context) => DetailProductPage(
+                                  product: produk,
+                                  // user_id: user!.id.toString(),
+                                ),
                               ),
                             );
                           },
