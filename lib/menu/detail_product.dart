@@ -4,13 +4,14 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:owari/menu/home.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
 // import 'package:flutter_share/flutter_share.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:owari/menu/profile/profile.dart';
+// import 'package:owari/menu/profile/profile.dart';
 
 class DetailProductPage extends StatefulWidget {
   final dynamic product;
@@ -82,7 +83,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
                           10,
                         ), // Atur nilai radius sesuai keinginan Anda
                         child: Image.network(
-                          "https://localhost/owari/img/${widget.product['foto']}",
+                          "https://owari2.000webhostapp.com/owari/img/${widget.product['foto']}",
                           width: double.infinity,
                           fit: BoxFit.cover,
                           height: 300,
@@ -220,15 +221,16 @@ class _DetailProductPageState extends State<DetailProductPage> {
             children: [
               Row(
                 children: [
-                  IconButton(
-                    icon: Icon(Icons.chat),
-                    color: Colors.grey,
-                    onPressed: () {
-                      openwhatsapp(context);
-                    },
-                  ),
-                  Text("Hubungi Admin"),
-                ],
+                    IconButton(
+                      icon: Icon(Icons.add_shopping_cart_sharp),
+                      color: Colors.grey,
+                      onPressed: () {
+                        int userId = int.tryParse(user?.id ?? '') ?? 0;
+                        addToCart(context, userId);
+                      },
+                    ),
+                    Text("Masukkan Keranjang"),
+                  ],
               ),
               Row(
                 children: [
@@ -290,6 +292,49 @@ class _DetailProductPageState extends State<DetailProductPage> {
     }
   }
 
+ void addToCart(BuildContext context, int id) async {
+  // Mendapatkan nilai u_id dan p_id
+  int u_id = id; // Ubah dengan nilai default yang sesuai jika user null
+  int p_id = int.parse(widget.product['p_id']);
+
+  // Membuat permintaan HTTP GET ke API
+  var url = Uri.parse('https://owari2.000webhostapp.com/owari/api/tambah-keranjang.php?u_id=$u_id&p_id=$p_id');
+  var response = await http.get(url);
+
+  try {
+    if (response.statusCode == 200) {
+    // Jika permintaan berhasil
+    var data = jsonDecode(response.body);
+    String status = data['status'];
+    String message = data['message'];
+
+    if (status == 'success') {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(message)),
+      );
+
+      // Redirect ke halaman utama
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => HomePage()),
+        );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Terjadi kesalahan: $message')),
+      );
+    }
+  } else {
+    // Jika permintaan gagal
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Terjadi kesalahan saat menghubungi server')),
+    );
+  }
+  } catch (e) {
+    print(e);
+  }
+}
+
+
   void order(BuildContext context) async {
     String whatsapp = "6289616603042";
     // String pesanText = "Hello";
@@ -301,7 +346,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
     message += '\nKategori: ${widget.product['category']}';
     message += '\nUkuran: ${widget.product['ukuran']}';
 
-    String whatsappURlAndroid = "https://wa.me/ $whatsapp?text=$message";
+    String whatsappURlAndroid = "https://wa.me/$whatsapp?text=$message";
 
     var whatappURLIos = "https://wa.me/$whatsapp?text=$message";
 

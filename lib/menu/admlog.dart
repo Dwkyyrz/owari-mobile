@@ -66,7 +66,7 @@ class _AdminLoginState extends State<AdminLogin> {
   Future<void> login() async {
     String email = emailController.text;
     String password = passwordController.text;
-    const url = 'https://localhost/owari/api/adm/login.php';
+    const url = 'https://owari2.000webhostapp.com/owari/api/adm/login.php';
     try {
       final response = await http.post(Uri.parse(url), body: {
         'email': email,

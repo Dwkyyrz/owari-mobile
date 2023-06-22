@@ -29,7 +29,7 @@ class _KategoriState extends State<Kategori> {
 
   Future<void> fetchData() async {
     final response = await http
-        .get(Uri.parse("http://localhost/owari/api/produk.php"));
+        .get(Uri.parse("https://owari2.000webhostapp.com/owari/api/produk.php"));
 
     if (response.statusCode == 200) {
       setState(() {

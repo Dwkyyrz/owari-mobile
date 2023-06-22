@@ -72,7 +72,7 @@ class _HomePageState extends State<HomePage> {
 
   Future<void> fetchData() async {
     final response =
-        await http.get(Uri.parse("http://10.0.2.2/owari/api/produk.php"));
+        await http.get(Uri.parse("https://owari2.000webhostapp.com/owari/api/produk.php"));
 
     if (response.statusCode == 200) {
       setState(() {
@@ -200,10 +200,12 @@ class _HomePageState extends State<HomePage> {
                       childAspectRatio: MediaQuery.of(context).size.width /
                           (MediaQuery.of(context).size.height * 0.5),
                     ),
+
                     itemBuilder: (context, index) {
-                      var produk = produkList[index];
+                      try {
+                        var produk = produkList[index];
                       var fotoURL =
-                          "http://localhost/owari/img/${produk['foto']}";
+                          "https://owari2.000webhostapp.com/owari/img/${produk['foto']}";
                       var p_id = produk['p_id'];
                       var category = produk['category'];
                       var nama = produk['nama'];
@@ -276,7 +278,11 @@ class _HomePageState extends State<HomePage> {
                               ],
                             ),
                           ));
-                    },
+                    
+                      } catch (e) {
+                        print(e);
+                      }
+                      },
                   ),
                 ),
               ) // ),

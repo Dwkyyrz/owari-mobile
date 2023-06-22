@@ -174,8 +174,8 @@ class _UserProfileState extends State<UserProfile> {
                   ),
                   const SizedBox(height: 10),
                   customListTile(
-                    icon: Icons.history,
-                    text: "Riwayat Pembelian",
+                    icon: Icons.add_shopping_cart_sharp,
+                    text: "Keranjang Saya",
                     onTap: () => Navigator.pushNamed(context, '/riwayat'),
                   ),
                   // const SizedBox(height: 10),

@@ -103,7 +103,7 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
       );
 
       final url =
-          'https://owarishop.000webhostapp.com/api/update_akun.php'; // Ganti dengan URL API Anda
+          'https://owari2.000webhostapp.com/owari/api/update_akun.php'; // Ganti dengan URL API Anda
       var request = http.MultipartRequest('POST', Uri.parse(url));
       request.fields['u_id'] = updatedUser.id;
       request.fields['username'] = updatedUser.name;
